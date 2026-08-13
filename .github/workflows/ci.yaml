@@ -40,20 +40,44 @@ jobs:
                   php dev-app/bin/console lint:container
 
     assets:
-        name: Front assets
+        name: Front assets & smoke test
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.3'
+                  extensions: intl, zip
+                  coverage: none
 
             - uses: actions/setup-node@v4
               with:
                   node-version: '22'
 
-            - name: Install and build the playground assets
-              working-directory: dev-app
+            - name: Install dependencies
               run: |
-                  npm install
-                  npm run build
+                  composer install --prefer-dist --no-progress
+                  npm install --prefix dev-app --no-audit --no-fund
+
+            - name: Build the playground assets
+              run: npm run build --prefix dev-app
+
+            # Linting never renders a template: this is what catches runtime breakage
+            # (missing container services, missing PHP extensions, broken Twig variables).
+            - name: Boot the playground and check every route
+              run: |
+                  php dev-app/bin/console assets:install dev-app/public
+                  php -S 127.0.0.1:8000 -t dev-app/public > /tmp/server.log 2>&1 &
+                  sleep 3
+                  status=0
+                  for path in / /datatable /card-list /chart /datatable/data /card-list/data; do
+                      code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8000${path}")
+                      echo "${path} -> ${code}"
+                      [ "$code" = "200" ] || status=1
+                  done
+                  if [ $status -ne 0 ]; then cat /tmp/server.log; fi
+                  exit $status
 
     dist:
         name: Distributed archive

@@ -1,6 +1,8 @@
 # Development image of the bundle. Never shipped: `docker/` is export-ignored.
 FROM php:8.3-cli-alpine
 
+# intl is not optional: the bundle ships `+intl-icu` translation domains.
+# No database driver on purpose — the playground runs on an in-memory dataset.
 RUN apk add --no-cache \
         git \
         icu-dev \
@@ -9,7 +11,6 @@ RUN apk add --no-cache \
     && docker-php-ext-install -j"$(nproc)" \
         intl \
         opcache \
-        pdo_sqlite \
         zip
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

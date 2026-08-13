@@ -44,6 +44,10 @@ Le bundle n'est pas publié sur Packagist : déclarer un dépôt `path` (ou `vcs
 composer require mvincent/ui-kit-bundle:@dev
 ```
 
+Prérequis PHP 8.3+. Les domaines de traduction du kit sont en `+intl-icu` : l'extension
+`ext-intl` est recommandée, et à défaut le paquet `symfony/polyfill-intl-messageformatter`
+(tiré automatiquement) prend le relais.
+
 ### 2. Activer le bundle
 
 Si Flex ne l'a pas fait, ajouter dans `config/bundles.php` :
