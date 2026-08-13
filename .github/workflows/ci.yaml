@@ -7,12 +7,19 @@ on:
 
 jobs:
     php:
-        name: PHP ${{ matrix.php }}
+        name: PHP ${{ matrix.php }} / Symfony ${{ matrix.symfony }}
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
+            # Symfony 8 requires PHP >= 8.4.1, hence no 8.3 row for it.
             matrix:
-                php: ['8.3', '8.4']
+                include:
+                    - { php: '8.3', symfony: '6.4.*' }
+                    - { php: '8.3', symfony: '7.*' }
+                    - { php: '8.4', symfony: '7.*' }
+                    - { php: '8.4', symfony: '8.*' }
+                    - { php: '8.5', symfony: '7.*' }
+                    - { php: '8.5', symfony: '8.*' }
         steps:
             - uses: actions/checkout@v4
 
@@ -24,6 +31,14 @@ jobs:
 
             - name: Validate composer.json
               run: composer validate --strict
+
+            # Flex pins every symfony/* package to the branch under test, so a single
+            # `composer install` exercises the whole supported range.
+            - name: Pin the Symfony version
+              run: |
+                  composer global config --no-plugins allow-plugins.symfony/flex true
+                  composer global require --no-progress --no-scripts --no-plugins symfony/flex
+                  composer config extra.symfony.require "${{ matrix.symfony }}"
 
             - name: Install dependencies
               run: composer install --prefer-dist --no-progress
@@ -40,20 +55,34 @@ jobs:
                   php dev-app/bin/console lint:container
 
     assets:
-        name: Front assets & smoke test
+        name: Front assets & smoke test (PHP ${{ matrix.php }} / Symfony ${{ matrix.symfony }})
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            # Both ends of the supported range: linting never renders a template, so this
+            # is the only job that proves the layouts still work on Symfony 8.
+            matrix:
+                include:
+                    - { php: '8.3', symfony: '6.4.*' }
+                    - { php: '8.5', symfony: '8.*' }
         steps:
             - uses: actions/checkout@v4
 
             - uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: ${{ matrix.php }}
                   extensions: intl, zip
                   coverage: none
 
             - uses: actions/setup-node@v4
               with:
                   node-version: '22'
+
+            - name: Pin the Symfony version
+              run: |
+                  composer global config --no-plugins allow-plugins.symfony/flex true
+                  composer global require --no-progress --no-scripts --no-plugins symfony/flex
+                  composer config extra.symfony.require "${{ matrix.symfony }}"
 
             - name: Install dependencies
               run: |

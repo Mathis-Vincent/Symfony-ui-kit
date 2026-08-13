@@ -71,8 +71,12 @@ class Kernel extends BaseKernel
         $routes->import(Controller\DemoController::class, 'attribute');
 
         if ($this->isDebug() && class_exists(WebProfilerBundle::class)) {
-            $routes->import('@WebProfilerBundle/Resources/config/routing/wdt.xml')->prefix('/_wdt');
-            $routes->import('@WebProfilerBundle/Resources/config/routing/profiler.xml')->prefix('/_profiler');
+            // Symfony 8 dropped the XML routing loader; the profiler ships PHP equivalents since 7.3.
+            $routingDir = \dirname((new \ReflectionClass(WebProfilerBundle::class))->getFileName()).'/Resources/config/routing';
+            $ext = is_file($routingDir.'/wdt.php') ? 'php' : 'xml';
+
+            $routes->import("@WebProfilerBundle/Resources/config/routing/wdt.{$ext}")->prefix('/_wdt');
+            $routes->import("@WebProfilerBundle/Resources/config/routing/profiler.{$ext}")->prefix('/_profiler');
         }
     }
 }

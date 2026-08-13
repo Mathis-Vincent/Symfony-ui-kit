@@ -44,7 +44,8 @@ Le bundle n'est pas publié sur Packagist : déclarer un dépôt `path` (ou `vcs
 composer require mvincent/ui-kit-bundle:@dev
 ```
 
-Prérequis PHP 8.3+. Les domaines de traduction du kit sont en `+intl-icu` : l'extension
+Prérequis PHP 8.3, 8.4 ou 8.5, avec Symfony 6.4, 7.x ou 8.x (Symfony 8 exige PHP 8.4+).
+Les domaines de traduction du kit sont en `+intl-icu` : l'extension
 `ext-intl` est recommandée, et à défaut le paquet `symfony/polyfill-intl-messageformatter`
 (tiré automatiquement) prend le relais.
 

@@ -1,5 +1,7 @@
 # Development image of the bundle. Never shipped: `docker/` is export-ignored.
-FROM php:8.3-cli-alpine
+# Highest supported runtime, so the playground exercises the Symfony 8 branch;
+# the lower bounds (PHP 8.3, Symfony 6.4) are covered by the CI matrix.
+FROM php:8.5-cli-alpine
 
 # intl is not optional: the bundle ships `+intl-icu` translation domains.
 # No database driver on purpose — the playground runs on an in-memory dataset.
