@@ -1,0 +1,76 @@
+// Card list stats: the stat list inside a card with its icons, values and labels.
+.card-list {
+    &__card-stats {
+        display: flex;
+        flex-direction: column;
+        gap: .875rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__stat {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+
+        &--value-right {
+            .card-list__stat-label {
+                flex: 0 0 auto;
+
+                &::after {
+                    content: "\00a0:";
+                }
+            }
+
+            .card-list__stat-value {
+                font-size: .9375rem;
+                font-weight: 600;
+            }
+        }
+    }
+
+    &__stat-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: .625rem;
+        background-color: $st-surface;
+        color: $st-primary;
+        font-size: 1.125rem;
+
+        &--primary {
+            background-color: $st-surface;
+            color: $st-primary;
+        }
+
+        &--warning {
+            background-color: rgba($st-gold, .18);
+            color: darken($st-gold, 20%);
+        }
+
+        &--danger {
+            background-color: rgba($danger, .15);
+            color: $danger;
+        }
+
+        &--success {
+            background-color: rgba($st-accent, .15);
+            color: darken($st-accent, 8%);
+        }
+    }
+
+    &__stat-value {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: $st-ink;
+    }
+
+    &__stat-label {
+        color: rgba($st-ink, .6);
+        font-size: .9375rem;
+    }
+}

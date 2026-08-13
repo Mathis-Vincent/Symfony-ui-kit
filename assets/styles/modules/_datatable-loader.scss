@@ -1,0 +1,49 @@
+.data-table-frame {
+    position: relative;
+
+    .data-table {
+        transition: opacity .4s ease;
+    }
+
+    &--loading {
+        min-height: 320px;
+
+        .data-table {
+            opacity: 0;
+        }
+    }
+}
+
+// During the very first load only the illustration must show. The search,
+// pagination and length controls live inside .data-table (already faded out by
+// --loading), but the filters / actions / title are rendered in the card header
+// and only moved into the table once DataTables initialises, so they would flash
+// above the overlay. Hide the header until the rows are drawn (--loading dropped).
+.card:has(> .card-body > .data-table-frame--loading) > .card-header {
+    display: none;
+}
+
+.data-table-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: $card-bg;
+    transition: opacity .4s ease;
+
+    &__illustration {
+        width: 100%;
+        max-width: 240px;
+        max-height: 100%;
+        height: auto;
+    }
+
+    &--hidden {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+    }
+}

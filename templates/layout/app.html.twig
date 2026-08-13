@@ -1,0 +1,21 @@
+{# Minimal host layout: the CardList layout extends it and fills its `content` block.
+   Replace it with the target project's own application layout — only the `content` block matters. #}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|default('fr') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+    <main class="app-main">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

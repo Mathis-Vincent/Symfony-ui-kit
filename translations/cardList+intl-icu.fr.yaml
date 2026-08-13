@@ -1,0 +1,11 @@
+search:
+    placeholder: Rechercher…
+loading: Chargement de la liste…
+loadMore: Charger plus
+loadAll: Tout charger
+empty: Aucun résultat correspondant
+count: '{displayed, plural, one{# élément sur {total} affiché} other{# éléments sur {total} affichés}}'
+filter:
+    label: Filtrer
+    title: Filtres
+    apply: Appliquer

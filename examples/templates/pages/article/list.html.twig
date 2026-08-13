@@ -1,0 +1,39 @@
+{# DataTables example: the template only declares the columns and the configuration. #}
+{% extends "@MVincentUiKit/dataTable/layout.html.twig" %}
+
+{% set dt_url_populate = url('app_articles_list_datatable') %}
+{% set dt_page_length = 25 %}
+{% set dt_active_search = true %}
+{% set dt_active_length_menu = true %}
+{% set dt_sticky_header = true %}
+{% set dt_default_orderable = ['published_at', 'desc'] %}
+
+{% block card_title %}
+    {{ 'article.list.title'|trans }}
+{% endblock %}
+
+{% block card_filters %}
+    <select
+        class="form-select"
+        data-filter-column-name="filter_category"
+        {{ stimulus_target(dt_controller_name, 'filterField') }}
+    >
+        <option value="0">{{ 'article.filter.category_all'|trans }}</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="button" class="btn btn-primary" {{ stimulus_action(dt_controller_name, 'filter') }}>
+        {{ 'filter'|trans({}, 'dataTable') }}
+    </button>
+{% endblock %}
+
+{% block dt_thead_tr %}
+    <th data-column-name="title" data-mobile-title>{{ 'article.list.th.title'|trans }}</th>
+    <th data-column-name="category">{{ 'article.list.th.category'|trans }}</th>
+    <th data-column-name="views" data-mobile-hide>{{ 'article.list.th.views'|trans }}</th>
+    <th data-column-name="published_at">{{ 'article.list.th.published_at'|trans }}</th>
+    {# Hidden column: displays nothing, but routes the filter value to the right column server-side. #}
+    <th class="d-none" data-column-name="filter_category"></th>
+{% endblock %}

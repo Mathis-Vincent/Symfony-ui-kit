@@ -1,0 +1,130 @@
+// Card list layout: outer container, responsive grid, empty state and footer.
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    &__grid {
+        --cl-per-row: 4;
+
+        display: grid;
+        grid-template-columns: repeat(var(--cl-per-row), minmax(0, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+
+        @media (max-width: 1199.98px) {
+            grid-template-columns: repeat(min(var(--cl-per-row), 3), minmax(0, 1fr));
+        }
+
+        @media (max-width: 991.98px) {
+            grid-template-columns: repeat(min(var(--cl-per-row), 2), minmax(0, 1fr));
+        }
+
+        @media (max-width: 575.98px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    &__frame {
+        position: relative;
+
+        .card-list__grid,
+        .card-list__empty {
+            transition: opacity .4s ease;
+        }
+
+        &--loading {
+            min-height: 320px;
+
+            .card-list__grid,
+            .card-list__empty {
+                opacity: 0;
+            }
+        }
+    }
+
+    &__placeholder {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background-color: $st-background;
+        transition: opacity .4s ease;
+
+        &-illustration {
+            width: 100%;
+            max-width: 240px;
+            max-height: 100%;
+            height: auto;
+        }
+
+        &--hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+    }
+
+    &__empty {
+        padding: 2.5rem 1rem;
+        text-align: center;
+        color: rgba($st-ink, .55);
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .75rem;
+        min-height: 1rem;
+    }
+
+    // Append loader ("load more" / "load all"): a card-height space below the
+    // existing cards showing the same illustration until the next page arrives.
+    &__more-loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        min-height: 160px;
+
+        &-illustration {
+            width: 100%;
+            max-width: 240px;
+            max-height: 100%;
+            height: auto;
+        }
+    }
+
+    &__footer-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        border: 1px solid $st-border;
+        border-radius: .625rem;
+        background-color: $st-background;
+        color: rgba($st-ink, .7);
+        font-weight: 600;
+        box-shadow: 0 1px 2px rgba($st-ink, .08);
+        transition: background-color .15s ease-in-out, color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform .15s ease-in-out;
+
+        &:hover {
+            border-color: rgba($st-primary, .35);
+            background-color: rgba($st-primary, .06);
+            color: $st-primary;
+            box-shadow: 0 4px 8px rgba($st-ink, .1);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            border-color: transparent;
+            background-color: rgba($st-primary, .1);
+            color: $st-primary;
+            box-shadow: inset 0 2px 4px rgba($st-primary, .18);
+            transform: translateY(0);
+        }
+    }
+}

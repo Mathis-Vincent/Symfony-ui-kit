@@ -1,0 +1,27 @@
+{
+    "name": "mvincent-ui-kit-dev-app",
+    "private": true,
+    "description": "Development playground of mvincent/ui-kit-bundle. Never distributed.",
+    "scripts": {
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production"
+    },
+    "devDependencies": {
+        "@symfony/webpack-encore": "^5.0",
+        "sass": "^1.77",
+        "sass-loader": "^14.0",
+        "webpack-notifier": "^1.15"
+    },
+    "dependencies": {
+        "@floating-ui/dom": "^1.6",
+        "@hotwired/stimulus": "^3.2",
+        "@sentry/browser": "^8.0",
+        "axios": "^1.7",
+        "bootstrap": "^5.3",
+        "chart.js": "^4.4",
+        "datatables.net-bs5": "^2.0",
+        "datatables.net-select-bs5": "^2.0",
+        "sweetalert2": "^11.0"
+    }
+}

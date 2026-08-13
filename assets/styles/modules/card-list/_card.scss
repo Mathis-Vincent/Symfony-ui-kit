@@ -1,0 +1,85 @@
+// Card list item: the clickable card shell, its header, titles and chevron.
+.card-list {
+    &__card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        border: 1px solid $st-border;
+        border-radius: 1rem;
+        background-color: $st-background;
+        color: $st-ink;
+        text-decoration: none;
+        box-shadow: 0 1px 3px rgba($st-ink, .04);
+        transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+
+    a#{&}__card:hover {
+        color: $st-ink;
+        border-color: rgba($st-primary, .5);
+        box-shadow: 0 6px 18px rgba($st-ink, .1);
+        transform: translateY(-2px);
+    }
+
+    &__card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid $st-border;
+    }
+
+    &__card-icon {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: .75rem;
+        background-color: rgba($st-primary, .1);
+        color: $st-primary;
+        font-size: 1.25rem;
+    }
+
+    &__card-heading {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: .15rem;
+    }
+
+    &__card-title {
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: $st-ink;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__card-subtitle {
+        margin: 0;
+        font-size: .8125rem;
+        font-weight: 500;
+        color: rgba($st-ink, .55);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__card-chevron {
+        flex-shrink: 0;
+        color: rgba($st-ink, .35);
+        font-size: 1rem;
+        transition: color .15s ease, transform .15s ease;
+    }
+
+    a#{&}__card:hover &__card-chevron {
+        color: $st-primary;
+        transform: translateX(3px);
+    }
+}

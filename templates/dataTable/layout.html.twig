@@ -1,0 +1,58 @@
+{% extends "@MVincentUiKit/partials/card/_card.html.twig" %}
+
+{# The host page may override `dt_controller_name`; by default it follows the bundle's stimulus_prefix. #}
+{% set dt_controller_name = dt_controller_name|default(mvincent_ui_kit.stimulus_prefix ~ 'datatables') %}
+
+{% block card_attr %}
+    {{ stimulus_controller(dt_controller_name)|raw }}
+{% endblock card_attr%}
+
+{% block card_header %}
+{% endblock card_header %}
+
+{% block card_title %}
+{% endblock card_title %}
+
+{% block card_body %}
+    {% set dt_sticky_header = dt_sticky_header|default(false) %}
+    <div class="data-table-frame{% if dt_url_populate is defined %} data-table-frame--loading{% endif %}">
+    <div class="data-table{% if dt_sticky_header %} data-table--sticky-header{% endif %}">
+        <div class="data-table__scroll">
+            <table
+                class="data-table__table align-middle {% block dt_table_class %}{% endblock %}"
+                {{ stimulus_target(dt_controller_name, 'table') }}
+                {% if dt_url_populate is defined %}data-url-populate="{{ dt_url_populate }}"{% endif %}
+                {% if dt_active_search is defined and dt_active_search == true %}data-active-search="1"{% endif %}
+                {% if dt_active_length_menu is defined and dt_active_length_menu == true %}data-active-length-menu="1"{% endif %}
+                {% if dt_active_first_last is defined and dt_active_first_last == true %}data-active-first-last="1"{% endif %}
+                {% if dt_page_length is defined %}data-page-length="{{ dt_page_length }}"{% endif %}
+                {% if dt_sticky_header %}data-sticky-header="1"{% endif %}
+                {% if dt_active_total_info is defined and dt_active_total_info == false %}data-disable-total-info="1"{% endif %}
+                {% if dt_default_orderable is defined %}data-default-order="{{ (dt_default_orderable[0] is iterable ? dt_default_orderable : [dt_default_orderable])|json_encode }}"{% endif %}
+                {% if dt_url_search is defined and dt_url_search == true %}data-url-search-param="{{ dt_url_search_param|default('searchFieldDt') }}"{% endif %}
+                {% if dt_target is defined %}{{ stimulus_target(dt_target[0], dt_target[1]) }}{% endif %}
+                {% block dt_table_attr %}{% endblock %}
+            >
+                <thead>
+                    <tr>
+                        {% block dt_thead_tr %}
+                        {% endblock %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% block dt_tbody_td %}{% endblock %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% if dt_url_populate is defined %}
+        <div class="data-table-loader" {{ stimulus_target(dt_controller_name, 'loader') }}>
+            <img
+                class="data-table-loader__illustration"
+                src="{{ asset(mvincent_ui_kit.asset_path ~ '/images/loading/table-coming-soon.svg') }}"
+                alt="{{ 'loading'|trans({}, 'dataTable') }}"
+            >
+        </div>
+    {% endif %}
+    </div>
+{% endblock card_body %}

@@ -1,0 +1,29 @@
+{% extends "@MVincentUiKit/cardList/layout.html.twig" %}
+
+{% set cl_url = path('demo_card_list_data') %}
+{% set cl_title_field = 'title' %}
+{% set cl_per_row = 3 %}
+{% set cl_rows = 2 %}
+{% set cl_card_clickable = true %}
+{% set cl_show_number = true %}
+{% set cl_load_all = true %}
+{% set cl_active_filter = true %}
+
+{% block cl_subtitle %}
+    <span class="card-list__card-subtitle" data-field="category"></span>
+{% endblock %}
+
+{% block cl_rows %}
+    <li class="card-list__card-stat" data-row-name="views" data-row-icon="bi-eye" data-row-icon-color="primary">Vues</li>
+    <li class="card-list__card-stat" data-row-name="comments" data-row-icon="bi-chat" data-row-value-position="right">Commentaires</li>
+{% endblock %}
+
+{% block cl_filters %}
+    <label class="form-label" for="demo-category">Catégorie</label>
+    <select id="demo-category" class="form-select" data-filter-param="category" {{ stimulus_target(cl_controller_name, 'filterField') }}>
+        <option value="">Toutes</option>
+        {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+{% endblock %}

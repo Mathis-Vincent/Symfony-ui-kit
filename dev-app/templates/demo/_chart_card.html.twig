@@ -1,0 +1,7 @@
+{% extends "@MVincentUiKit/chart/layout.html.twig" %}
+
+{% set ch_type = 'doughnut' %}
+{% set ch_json = chart|json_encode %}
+{% set ch_html_legend = true %}
+
+{% block card_title %}Articles par catégorie{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "@MVincentUiKit/partials/card/_card.html.twig" %}
+
+{% set ch_controller_name = ch_controller_name|default(mvincent_ui_kit.stimulus_prefix ~ 'chart') %}
+
+{% block card_attr %}
+    {{ stimulus_controller(ch_controller_name)|raw }}
+{% endblock card_attr %}
+
+{% block card_body %}
+    {% set ch_type = ch_type|default('pie') %}
+    {% set ch_html_legend = ch_html_legend|default(false) %}
+    <div class="chart-container{% if ch_html_legend %} chart-container--with-legend{% endif %}">
+        <canvas
+            {{ stimulus_target(ch_controller_name, 'graph') }}
+            data-type="{{ ch_type }}"
+            {% if ch_url_populate is defined %}data-url-populate="{{ ch_url_populate }}"{% endif %}
+            {% if ch_json is defined %}data-json="{{ ch_json }}"{% endif %}
+            {% if ch_html_legend %}data-html-legend="1"{% endif %}
+            {% if ch_colors is defined %}data-colors="{{ ch_colors|json_encode }}"{% endif %}
+        ></canvas>
+        <div class="chart-legend" {{ stimulus_target(ch_controller_name, 'legend') }}></div>
+        <div class="chart-loader chart-loader--overlay" {{ stimulus_target(ch_controller_name, 'loader') }}>
+            <img
+                class="chart-loader__illustration"
+                src="{{ asset(mvincent_ui_kit.asset_path ~ '/images/loading/chart-coming-soon.svg') }}"
+                alt="{{ 'loader.title'|trans({}, 'chart') }}"
+            >
+        </div>
+    </div>
+{% endblock card_body %}

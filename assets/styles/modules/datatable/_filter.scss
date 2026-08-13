@@ -1,0 +1,104 @@
+// DataTables action buttons and the filter dropdown panel.
+.card-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.data-table-filter {
+    position: relative;
+    display: inline-flex;
+
+    &__toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        border: 1px solid $st-border;
+        border-radius: .625rem;
+        background-color: $st-background;
+        color: rgba($st-ink, .7);
+        font-weight: 600;
+        box-shadow: 0 1px 2px rgba($st-ink, .08);
+        transition: background-color .15s ease-in-out, color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform .15s ease-in-out;
+
+        &:hover {
+            border-color: rgba($st-primary, .35);
+            background-color: rgba($st-primary, .06);
+            color: $st-primary;
+            box-shadow: 0 4px 8px rgba($st-ink, .1);
+            transform: translateY(-1px);
+        }
+
+        &:active,
+        &[aria-expanded="true"] {
+            border-color: transparent;
+            background-color: rgba($st-primary, .1);
+            color: $st-primary;
+            box-shadow: inset 0 2px 4px rgba($st-primary, .18);
+            transform: translateY(0);
+        }
+    }
+
+    &__panel {
+        width: min(90vw, 22rem);
+        background-color: $st-background;
+    }
+
+    &__header {
+        border-bottom: 1px solid $st-border;
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__title {
+        margin: 0;
+        color: $st-ink;
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    &__field + &__field {
+        margin-top: 1rem;
+    }
+
+    &__field {
+        .form-select,
+        .form-control {
+            border: 1px solid $st-border;
+            border-radius: .475rem;
+            background-color: $st-background;
+            color: $st-ink;
+            font-size: .95rem;
+
+            &:focus {
+                border-color: $st-primary;
+                box-shadow: 0 0 0 .2rem rgba($st-primary, .15);
+                outline: 0;
+            }
+        }
+
+        option {
+            background-color: $st-background;
+            color: $st-ink;
+        }
+    }
+
+    &__label {
+        display: block;
+        margin-bottom: .35rem;
+        color: $st-ink;
+        font-size: .9rem;
+        font-weight: 600;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: auto;
+        padding-top: 1.5rem;
+    }
+}

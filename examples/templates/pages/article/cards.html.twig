@@ -1,0 +1,42 @@
+{# CardList example: the template declares the card prototype, the JS controller fills it. #}
+{% extends "@MVincentUiKit/cardList/layout.html.twig" %}
+
+{% set cl_url = path('app_articles_cards') %}
+{% set cl_title_field = 'title' %}
+{% set cl_per_row = 3 %}
+{% set cl_rows = 2 %}
+{% set cl_card_clickable = true %}
+{% set cl_show_number = true %}
+{% set cl_load_all = true %}
+{% set cl_active_filter = categories|length > 1 %}
+{% set cl_url_search_param = 'q' %}
+
+{% block cl_subtitle %}
+    <p class="card-list__card-subtitle d-none">
+        <i class="bi bi-folder" aria-hidden="true"></i> <span data-field="categoryName"></span>
+    </p>
+{% endblock cl_subtitle %}
+
+{% block cl_rows %}
+    <li data-row-name="views" data-row-icon="eye-fill">{{ 'article.card.row.views'|trans }}</li>
+    <li data-row-name="readingTime" data-row-icon="clock-fill" data-row-value-position="right">{{ 'article.card.row.reading_time'|trans }}</li>
+{% endblock cl_rows %}
+
+{% block cl_filters %}
+    <div class="data-table-filter__field">
+        <label class="data-table-filter__label" for="cl-filter-category">
+            {{ 'article.filter.category'|trans }}
+        </label>
+        <select
+            id="cl-filter-category"
+            class="form-select"
+            data-filter-param="category"
+            {{ stimulus_target(cl_controller_name, 'filterField') }}
+        >
+            <option value="">{{ 'article.filter.category_all'|trans }}</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock cl_filters %}

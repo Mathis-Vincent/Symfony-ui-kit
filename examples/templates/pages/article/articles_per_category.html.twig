@@ -1,0 +1,11 @@
+{# Chart example: inline feeding (ch_json). Included with `with {chart: articlesPerCategoryChart}`.
+   No ch_colors here: the back sends its own colors, because the color carries business meaning. #}
+{% extends "@MVincentUiKit/chart/layout.html.twig" %}
+
+{% set ch_type = 'doughnut' %}
+{% set ch_json = chart|json_encode %}
+{% set ch_html_legend = true %}
+
+{% block card_title %}
+    {{ 'article.chart.per_category.title'|trans }}
+{% endblock %}

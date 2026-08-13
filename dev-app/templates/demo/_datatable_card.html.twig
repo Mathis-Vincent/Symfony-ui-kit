@@ -1,0 +1,29 @@
+{% extends "@MVincentUiKit/dataTable/layout.html.twig" %}
+
+{% set dt_url_populate = url('demo_datatable_data') %}
+{% set dt_page_length = 10 %}
+{% set dt_active_search = true %}
+{% set dt_active_length_menu = true %}
+{% set dt_active_first_last = true %}
+{% set dt_sticky_header = true %}
+{% set dt_default_orderable = ['published_at', 'desc'] %}
+
+{% block card_title %}Articles{% endblock %}
+
+{% block card_filters %}
+    <select class="form-select" data-filter-column-name="filter_category" {{ stimulus_target(dt_controller_name, 'filterField') }}>
+        <option value="">Toutes les catégories</option>
+        {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" class="btn btn-primary" {{ stimulus_action(dt_controller_name, 'filter') }}>Filtrer</button>
+{% endblock %}
+
+{% block dt_thead_tr %}
+    <th data-column-name="title" data-mobile-title>Titre</th>
+    <th data-column-name="category">Catégorie</th>
+    <th data-column-name="views" data-mobile-hide>Vues</th>
+    <th data-column-name="published_at">Publié le</th>
+    <th class="d-none" data-column-name="filter_category"></th>
+{% endblock %}

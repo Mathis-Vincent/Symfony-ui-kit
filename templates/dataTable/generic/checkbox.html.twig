@@ -1,0 +1,10 @@
+<div class="form-check form-check-sm form-check-custom form-check-solid">
+    <input class="form-check-input js-dt-row-selector"
+           {{ stimulus_target(dt_controller_name, 'multiSelectRow') }}
+           {{ stimulus_action(dt_controller_name, 'singleSelect') }}
+           type="checkbox"
+           {% if value is defined %}
+           value="{{ value }}"
+           {% endif %}
+    />
+</div>

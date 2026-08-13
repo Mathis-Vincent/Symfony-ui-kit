@@ -1,0 +1,24 @@
+{
+    "name": "@mvincent/ui-kit",
+    "version": "1.0.0",
+    "description": "Front assets (Stimulus controllers + SCSS) of mvincent/ui-kit-bundle.",
+    "license": "MIT",
+    "main": "index.js",
+    "exports": {
+        ".": "./index.js",
+        "./translator": "./translator.js",
+        "./styles/*": "./styles/*",
+        "./controllers/*": "./controllers/*"
+    },
+    "peerDependencies": {
+        "@floating-ui/dom": "^1.6",
+        "@hotwired/stimulus": "^3.0",
+        "@sentry/browser": "^7.0 || ^8.0 || ^9.0",
+        "axios": "^1.0",
+        "bootstrap": "^5.3",
+        "chart.js": "^4.0",
+        "datatables.net-bs5": "^2.0",
+        "datatables.net-select-bs5": "^2.0",
+        "sweetalert2": "^11.0"
+    }
+}

@@ -1,0 +1,26 @@
+# Normalize line endings: the repository stores LF, whatever the checkout platform.
+* text=auto eol=lf
+*.mp3 binary
+*.svg text eol=lf
+
+# Never shipped to a project that installs the bundle. `composer require` downloads the
+# dist archive, built by `git archive` from this list, so everything below is simply
+# absent from vendor/mvincent/ui-kit-bundle.
+#
+# The CI job `dist` asserts that this stays true.
+
+# Development playground (micro Symfony app + its front tooling)
+/dev-app         export-ignore
+
+# Docker development stack
+/docker          export-ignore
+/compose.yaml    export-ignore
+/.dockerignore   export-ignore
+/Makefile        export-ignore
+
+# Repository metadata
+/.github         export-ignore
+/.gitattributes  export-ignore
+/.gitignore      export-ignore
+
+# `examples/` and `docs/` are shipped on purpose: they are the reference documentation.

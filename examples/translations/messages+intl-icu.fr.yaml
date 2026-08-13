@@ -1,0 +1,25 @@
+# Business labels of the example: the generic module UI lives in the cardList / dataTable / chart
+# domains, everything specific to a list belongs here.
+actions:
+    close: Fermer
+
+article:
+    list:
+        title: Articles
+        th:
+            title: Titre
+            category: Catégorie
+            views: Vues
+            published_at: Publié le
+    filter:
+        category: Catégorie
+        category_all: Toutes les catégories
+    card:
+        reading_time: '{minutes, plural, one{# min} other{# min}}'
+        row:
+            views: vues
+            reading_time: Lecture
+    chart:
+        per_category:
+            title: Articles par catégorie
+            series: Articles

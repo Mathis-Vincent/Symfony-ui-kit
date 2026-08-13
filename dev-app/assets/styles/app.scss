@@ -1,0 +1,9 @@
+// Import order matters: the palette first (it overrides Bootstrap variables),
+// then Bootstrap, then the kit modules — exactly what a host project does.
+@import "~@mvincent/ui-kit/styles/variables/palette";
+@import "~bootstrap/scss/bootstrap";
+@import "~@mvincent/ui-kit/styles/ui-kit";
+
+body {
+    background-color: $st-surface;
+}

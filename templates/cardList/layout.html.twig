@@ -1,0 +1,168 @@
+{% extends mvincent_ui_kit.base_layout %}
+
+{% set cl_controller_name = cl_controller_name|default(mvincent_ui_kit.stimulus_prefix ~ 'card-list') %}
+{% set cl_offcanvas_controller_name = cl_offcanvas_controller_name|default(mvincent_ui_kit.stimulus_prefix ~ 'offcanvas') %}
+
+{% block content %}
+    {% set cl_per_row = cl_per_row|default(4) %}
+    {% set cl_rows = cl_rows|default(3) %}
+    {% set cl_per_page = cl_per_row * cl_rows %}
+    {% set cl_title_field = cl_title_field|default('name') %}
+    {% set cl_card_clickable = cl_card_clickable|default(false) %}
+    {% set cl_active_search = cl_active_search is defined ? cl_active_search : true %}
+    {% set cl_show_number = cl_show_number|default(false) %}
+    {% set cl_load_all = cl_load_all|default(false) %}
+    {% set cl_active_filter = cl_active_filter|default(false) %}
+    {% set cl_loading_label = cl_loading_label|default('loading'|trans({}, 'cardList')) %}
+
+    <div class="card-list"
+        {{ stimulus_controller(cl_controller_name, {
+            url: cl_url,
+            page: 1,
+            perPage: cl_per_page,
+            hasMore: false,
+            autoload: true,
+            titleField: cl_title_field,
+            clickable: cl_card_clickable,
+            searchParam: cl_url_search_param|default(''),
+            countKey: cl_count_key|default('count'),
+            countDomain: cl_count_domain|default('cardList'),
+        })|raw }}
+    >
+        <template {{ stimulus_target(cl_controller_name, 'itemTemplate') }}>
+            <div class="card-list__card-header">
+                {% block cl_card_icon %}{% endblock %}
+                <div class="card-list__card-heading">
+                    <h3 class="card-list__card-title"></h3>
+                    {% block cl_subtitle %}{% endblock %}
+                </div>
+                {% if cl_card_clickable %}
+                    <i class="bi bi-chevron-right card-list__card-chevron" aria-hidden="true"></i>
+                {% endif %}
+            </div>
+            <ul class="card-list__card-stats">
+                {% block cl_rows %}{% endblock %}
+            </ul>
+        </template>
+
+        {% if cl_active_search or cl_show_number or cl_active_filter %}
+            <div class="card-list__toolbar">
+                {% if cl_active_search %}
+                    <div class="card-list__search">
+                        <i class="bi bi-search card-list__search-icon" aria-hidden="true"></i>
+                        <input
+                            type="search"
+                            class="form-control card-list__search-input"
+                            placeholder="{{ cl_search_placeholder|default('search.placeholder'|trans({}, 'cardList')) }}"
+                            autocomplete="off"
+                            {{ stimulus_target(cl_controller_name, 'searchField') }}
+                            data-action="input->{{ cl_controller_name }}#search"
+                        >
+                    </div>
+                {% endif %}
+                {% if cl_active_filter %}
+                    <div class="data-table-filter card-list__filter" {{ stimulus_controller(cl_offcanvas_controller_name) }}>
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary data-table-filter__toggle"
+                            title="{{ 'filter.label'|trans({}, 'cardList') }}"
+                            {{ stimulus_action(cl_offcanvas_controller_name, 'toggle') }}
+                        >
+                            <i class="bi bi-funnel" aria-hidden="true"></i>
+                            {{ 'filter.label'|trans({}, 'cardList') }}
+                        </button>
+
+                        <div class="offcanvas offcanvas-end data-table-filter__panel"
+                             tabindex="-1"
+                             aria-labelledby="cardListFilterLabel"
+                             {{ stimulus_target(cl_offcanvas_controller_name, 'panel') }}
+                        >
+                            <div class="offcanvas-header data-table-filter__header">
+                                <h5 class="data-table-filter__title" id="cardListFilterLabel">
+                                    {{ cl_filter_title|default('filter.title'|trans({}, 'cardList')) }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ 'actions.close'|trans }}"></button>
+                            </div>
+
+                            <div class="offcanvas-body data-table-filter__body">
+                                {% block cl_filters %}{% endblock %}
+
+                                <div class="data-table-filter__actions">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        data-bs-dismiss="offcanvas"
+                                        data-action="{{ cl_controller_name }}#filter"
+                                    >
+                                        {{ 'filter.apply'|trans({}, 'cardList') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if cl_show_number %}
+                    <div class="card-list__count"
+                        {{ stimulus_target(cl_controller_name, 'count') }}
+                        aria-live="polite"
+                    ></div>
+                {% endif %}
+                {% block cl_toolbar_actions %}{% endblock %}
+            </div>
+        {% endif %}
+
+        <div class="card-list__frame card-list__frame--loading"
+            {{ stimulus_target(cl_controller_name, 'frame') }}
+        >
+            <div class="card-list__grid {% block cl_grid_class %}{% endblock %}"
+                style="--cl-per-row: {{ cl_per_row }};"
+                {{ stimulus_target(cl_controller_name, 'grid') }}
+            ></div>
+
+            <div class="card-list__empty d-none"
+                {{ stimulus_target(cl_controller_name, 'empty') }}
+            >
+                {{ 'empty'|trans({}, 'cardList') }}
+            </div>
+
+            <div class="card-list__placeholder"
+                {{ stimulus_target(cl_controller_name, 'placeholder') }}
+            >
+                <img
+                    class="card-list__placeholder-illustration"
+                    src="{{ asset(mvincent_ui_kit.asset_path ~ '/images/loading/cards-coming-soon.svg') }}"
+                    alt="{{ cl_loading_label }}"
+                >
+            </div>
+        </div>
+
+        <div class="card-list__more-loader d-none" {{ stimulus_target(cl_controller_name, 'loader') }}>
+            <img
+                class="card-list__more-loader-illustration"
+                src="{{ asset(mvincent_ui_kit.asset_path ~ '/images/loading/cards-coming-soon.svg') }}"
+                alt="{{ cl_loading_label }}"
+            >
+        </div>
+
+        <div class="card-list__footer">
+            <button
+                type="button"
+                class="btn card-list__footer-btn card-list__load-more d-none"
+                {{ stimulus_target(cl_controller_name, 'loadMore') }}
+                data-action="{{ cl_controller_name }}#loadMore"
+            >
+                {{ 'loadMore'|trans({}, 'cardList') }}
+            </button>
+            {% if cl_load_all %}
+                <button
+                    type="button"
+                    class="btn card-list__footer-btn card-list__load-all d-none"
+                    {{ stimulus_target(cl_controller_name, 'loadAll') }}
+                    data-action="{{ cl_controller_name }}#loadAll"
+                >
+                    {{ 'loadAll'|trans({}, 'cardList') }}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

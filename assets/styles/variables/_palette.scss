@@ -1,0 +1,49 @@
+// Project color palette — the single file to edit to restyle the three modules
+// Single source of truth for the application's brand colors.
+
+// Primaire
+$st-primary: #1E3A8A !default;
+// Accent
+$st-accent: #10B981 !default;
+// Accent chaud (hover sur fonds sombres)
+$st-gold: #FBBF24 !default;
+// Texte Principal
+$st-ink: #0F172A !default;
+// Fond Principal
+$st-background: #FAF8F2 !default;
+// Fond Secondaire
+$st-surface: #F4F1E9 !default;
+// Bordures & Rails
+$st-border: #E2E8F0 !default;
+
+// Bootstrap theme overrides (must be declared before importing Bootstrap so the
+// `!default` values are superseded across the whole component library).
+$primary: $st-primary !default;
+$success: $st-accent !default;
+$body-color: $st-ink !default;
+$body-bg: $st-background !default;
+$body-secondary-bg: $st-surface !default;
+$body-tertiary-bg: $st-surface !default;
+$border-color: $st-border !default;
+$card-bg: $st-background !default;
+$card-border-color: $st-border !default;
+$card-cap-bg: transparent !default;
+
+// Expose the palette as custom properties for use in handwritten BEM styles.
+// Guarded so the block is emitted once even when this partial is imported twice
+// (once by the host before Bootstrap, once by `ui-kit.scss`).
+$st-palette-emitted: false !default;
+
+@if not $st-palette-emitted {
+    :root {
+        --st-primary: #{$st-primary};
+        --st-accent: #{$st-accent};
+        --st-gold: #{$st-gold};
+        --st-ink: #{$st-ink};
+        --st-background: #{$st-background};
+        --st-surface: #{$st-surface};
+        --st-border: #{$st-border};
+    }
+
+    $st-palette-emitted: true;
+}

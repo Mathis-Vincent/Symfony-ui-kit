@@ -1,0 +1,37 @@
+<div class="card card-stretch" {% block card_attr %}{% endblock card_attr%}>
+    {%
+        if (block('card_header') is defined and block('card_header')|trim is not empty)
+        or (block('card_title') is defined and block('card_title')|trim is not empty)
+        or (block('card_filters')is defined and block('card_filters')|trim is not empty)
+        or (block('card_actions') is defined and block('card_actions')|trim is not empty)
+    %}
+        <div class="card-header">
+            {% if block('card_header') is defined and block('card_header')|trim is not empty %}
+                {{ block('card_header')|raw }}
+            {% elseif block('card_title') is defined %}
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">
+                            {{ block('card_title')|raw }}
+                        </h3>
+                    </div>
+            {% endif %}
+
+            {% if block('card_filters') is defined %}
+                    <div class="card-filters">
+                        {{ block('card_filters')|raw }}
+                    </div>
+            {% endif %}
+
+            {% if block('card_actions') is defined %}
+                    <div class="card-actions">
+                        {{ block('card_actions')|raw }}
+                    </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="card-body py-4">
+        {% block card_body %}
+        {% endblock %}
+    </div>
+</div>

@@ -1,0 +1,5 @@
+.git
+dev-app/node_modules
+dev-app/public/build
+dev-app/public/bundles
+vendor

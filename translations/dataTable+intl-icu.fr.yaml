@@ -1,0 +1,33 @@
+filter: Filtrer
+loading: Chargement du tableau…
+action: >-
+    {count, plural,
+        one {Action}
+        other {Actions}
+    }
+selected: Sélectionnées
+emptyTable: Aucune donnée disponible
+zeroRecords: Aucun résultat correspondant
+search: "Rechercher :"
+info: Affichage de _START_ à _END_ sur _TOTAL_ entrées
+infoEmpty: Aucune entrée
+lengthMenu: _MENU_ entrées par page
+infoFiltered: (filtrées depuis un total de _MAX_ entrées)
+select:
+    cells:
+        more: '%d cellules sélectionnées'
+        zero: ''
+        one: 1 cellule sélectionnée
+    columns:
+        more: '%d colonnes sélectionnées'
+        zero: ''
+        one: '1 colonne sélectionnée'
+    rows:
+        more: '%d lignes sélectionnées'
+        zero: ''
+        one: 1 ligne sélectionnée
+paginate:
+    first: ↤
+    last: ↦
+    next: →
+    previous: ←

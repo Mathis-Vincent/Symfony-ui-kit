@@ -1,0 +1,6 @@
+# The dev app exercises the bundle with its own layout, which is exactly what a
+# host project does. Change these values to test the configuration itself.
+mvincent_ui_kit:
+    base_layout: 'base.html.twig'
+    # asset_path: 'bundles/mvincentuikit'
+    # stimulus_prefix: 'generic--'

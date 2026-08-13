@@ -1,0 +1,13 @@
+// Single entrypoint of the UI kit styles.
+//
+// Import it from the host application AFTER Bootstrap (the modules restyle Bootstrap
+// components) and, if you want to restyle the kit, declare your own `$st-*` values
+// BEFORE importing "variables/palette" — every variable there is `!default`.
+
+@import "variables/palette";
+
+@import "modules/datatable/datatable";
+@import "modules/datatable-loader";
+@import "modules/card-list/card-list";
+@import "modules/charts/charts";
+@import "modules/chart-loader";

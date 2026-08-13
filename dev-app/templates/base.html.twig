@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}UI Kit — playground{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+    {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand border-bottom mb-4">
+        <div class="container">
+            <span class="navbar-brand fw-bold">UI Kit — playground</span>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{{ path('demo_home') }}">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('demo_datatable') }}">DataTable</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('demo_card_list') }}">CardList</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('demo_chart') }}">Chart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container pb-5">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

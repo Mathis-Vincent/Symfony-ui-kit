@@ -1,0 +1,248 @@
+// DataTables table body: head/rows styling, row actions, paging and processing.
+.data-table {
+    &__table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+        color: $st-ink;
+
+        thead th {
+            padding: .85rem 1rem;
+            border-bottom: 1px solid $st-border;
+            background-color: $st-background;
+            color: rgba($st-ink, .55);
+            font-size: .78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            white-space: nowrap;
+            text-align: left;
+            box-shadow: 0 .5rem .75rem -.5rem transparent;
+            transition: box-shadow .2s ease-in-out;
+        }
+
+        &.dataTable thead > tr > th div.dt-column-header {
+            flex-direction: row;
+        }
+
+        thead th.dt-type-numeric,
+        thead th.dt-type-date,
+        tbody td.dt-type-numeric,
+        tbody td.dt-type-date {
+            text-align: left;
+        }
+
+        tbody td {
+            padding: .85rem 1rem;
+            border-bottom: 1px dotted $st-border;
+            vertical-align: middle;
+            font-size: .95rem;
+            transition: background-color .15s ease-in-out;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba($st-primary, .1);
+        }
+
+        tbody tr.row-selected,
+        tbody tr.selected {
+            td {
+                background-color: rgba($st-primary, .08);
+            }
+        }
+
+        tbody tr.js-dt-expired td {
+            color: rgba($st-ink, .55);
+        }
+
+        td.dt-empty {
+            padding: 2rem 1rem;
+            color: rgba($st-ink, .55);
+            text-align: center;
+            font-style: italic;
+        }
+
+        // Selection column: a narrow, label-less column holding a row checkbox.
+        // "width: 1px" combined with "white-space: nowrap" shrinks it to its
+        // content so it never behaves like a stretchable data column.
+        th.data-table__cell--select,
+        td.data-table__cell--select {
+            width: 1px;
+            padding-right: .25rem;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        th.data-table__cell--select .form-check,
+        td.data-table__cell--select .form-check {
+            display: flex;
+            justify-content: center;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        // Bootstrap floats ".form-check-input" left with a "-2.25rem" negative
+        // margin (meant for a following label). With no label here it pushes the
+        // checkbox out past the table's left edge, so reset it explicitly at a
+        // specificity that beats both the Bootstrap and Metronic base rules.
+        th.data-table__cell--select .form-check-input,
+        td.data-table__cell--select .form-check-input {
+            float: none;
+            margin: 0;
+        }
+
+        // DataTables wraps the header cell content in a ".dt-column-header" flex
+        // row whose default "space-between" pushes the "select all" checkbox to
+        // the left edge, misaligning it with the centered row checkboxes below.
+        // Center the wrapper (and drop its inter-item gap) so the header box
+        // lines up with its column.
+        th.data-table__cell--select .dt-column-header {
+            justify-content: center;
+            gap: 0;
+        }
+
+        // Actions column: keep the row action buttons on a single line and let
+        // the column shrink to their width instead of claiming free space. No
+        // horizontal scroll is available while the sticky header is enabled, so
+        // the buttons must stay compact enough for the table to fit its width.
+        th.data-table__cell--actions,
+        td.data-table__cell--actions {
+            width: 1px;
+            padding-left: .5rem;
+            padding-right: .5rem;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        // Row-level actions are arranged as a compact two-column grid so the
+        // column keeps a small footprint while every button stays a comfortable
+        // click target and none stack on top of another.
+        td.data-table__cell--actions .action-btn-group {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            justify-content: end;
+            gap: .4rem;
+        }
+
+        td.data-table__cell--actions .action-btn {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+    }
+
+    // Sticky header requires "separate" borders: with "collapse" the browser
+    // does not keep the pinned <th> painted, so scrolling rows bleed above it.
+    &--sticky-header &__table {
+        border-collapse: separate;
+        border-spacing: 0;
+
+        thead th {
+            position: sticky;
+            top: 8vh;
+            z-index: 2;
+        }
+    }
+
+    &--stuck &__table thead th {
+        box-shadow: 0 .5rem .75rem -.5rem rgba($st-ink, .35);
+    }
+
+    &__actions {
+        display: inline-flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    &__action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba($st-ink, .7);
+        font-size: 1.15rem;
+        line-height: 1;
+        text-decoration: none;
+        transition: color .15s ease-in-out;
+
+        &:hover {
+            color: $st-primary;
+        }
+    }
+
+    &__link {
+        color: $st-primary;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color .15s ease-in-out;
+
+        &:hover {
+            color: $st-primary;
+            text-decoration: underline;
+        }
+    }
+
+    .dt-paging .pagination {
+        gap: .5rem;
+        margin: 0;
+
+        .page-item {
+            margin: 0;
+        }
+
+        .page-link {
+            border: 1px solid $st-border;
+            border-radius: .625rem;
+            background-color: $st-background;
+            color: $st-primary;
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba($st-ink, .08);
+            transition: background-color .15s ease-in-out, color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform .15s ease-in-out;
+
+            &:hover {
+                border-color: rgba($st-primary, .35);
+                background-color: rgba($st-primary, .06);
+                color: $st-primary;
+                box-shadow: 0 4px 8px rgba($st-ink, .1);
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                box-shadow: inset 0 1px 3px rgba($st-ink, .15);
+                transform: translateY(0);
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 .2rem rgba($st-primary, .15);
+            }
+        }
+
+        .page-item.active .page-link {
+            border-color: transparent;
+            background-color: $st-primary;
+            color: $st-background;
+            font-weight: 600;
+            box-shadow: inset 0 2px 4px rgba($st-ink, .25);
+            transform: translateY(0);
+        }
+
+        .page-item.disabled .page-link {
+            border-color: $st-border;
+            background-color: $st-background;
+            color: rgba($st-ink, .35);
+            box-shadow: none;
+            transform: none;
+        }
+    }
+
+    // The native processing indicator is replaced by the illustration overlay
+    // (.data-table-loader), shown on every server request via processing.dt.
+    // DataTables toggles this element with an inline "display: block", so the
+    // override must be !important to win over that inline style.
+    .dt-processing {
+        display: none !important;
+    }
+}

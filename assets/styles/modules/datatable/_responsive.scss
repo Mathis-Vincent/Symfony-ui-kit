@@ -1,0 +1,133 @@
+// Intermediate range: above the mobile card layout but below a comfortably wide
+// These desktop rules are skipped when the sticky header is enabled: the
+// horizontal scroll container ("overflow-x: auto") would capture the sticky
+// <th>, pinning it to that box instead of the viewport, and "position: static"
+// would disable the pinning altogether.
+@media (min-width: 771px) {
+    .data-table:not(.data-table--sticky-header) .dt-layout-table {
+        overflow-x: auto;
+    }
+
+    .data-table:not(.data-table--sticky-header) .data-table__table thead th {
+        position: static;
+        top: auto;
+        box-shadow: none;
+    }
+}
+
+// Mobile "accordion": each row collapses into an expandable card.
+@media (max-width: 768px) {
+    .data-table__table {
+        display: block;
+        width: 100%;
+
+        thead {
+            display: none;
+        }
+
+        tbody {
+            display: block;
+            width: 100%;
+        }
+
+        tbody tr {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 1rem;
+            border: 1px solid $st-border;
+            border-radius: .75rem;
+            background-color: $st-surface;
+            box-shadow: 0 1px 3px rgba($st-ink, .08);
+            overflow: hidden;
+        }
+
+        tbody tr:hover td,
+        tbody tr.row-selected td,
+        tbody tr.selected td {
+            background-color: transparent;
+        }
+
+        tbody td:not(.js-dt-mobile-title) {
+            display: block;
+            max-height: 0;
+            padding: 0 1rem;
+            border-bottom: 0;
+            overflow: hidden;
+            opacity: 0;
+            font-size: .95rem;
+            transition: max-height .25s ease-in-out, padding .25s ease-in-out, opacity .2s ease-in-out;
+
+            &::before {
+                content: attr(data-column-label);
+                display: block;
+                margin-bottom: .15rem;
+                color: rgba($st-ink, .55);
+                font-size: .72rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: .04em;
+            }
+
+            &[data-column-label=" "]::before,
+            &:not([data-column-label])::before {
+                content: none;
+            }
+        }
+
+        tbody td.js-dt-mobile-hide {
+            display: none !important;
+        }
+
+        tbody td.js-dt-mobile-title {
+            // Keep the summary cell pinned to the top of the card whatever its
+            // position among the columns (e.g. an "actions" column declared first).
+            order: -1;
+            display: flex;
+            align-items: center;
+            padding: .85rem 2.75rem .85rem 1rem;
+            background-color: $st-background;
+            font-weight: 600;
+            cursor: pointer;
+
+            &::before {
+                content: none;
+            }
+
+            &::after {
+                content: "\f282"; // bi-chevron-down
+                font-family: "bootstrap-icons";
+                position: absolute;
+                top: .95rem;
+                right: 1rem;
+                color: rgba($st-ink, .55);
+                font-size: .9rem;
+                transition: transform .25s ease-in-out;
+            }
+        }
+
+        tbody tr.js-dt-open td:not(.js-dt-mobile-title) {
+            max-height: 15rem;
+            padding-top: .6rem;
+            padding-bottom: .6rem;
+            opacity: 1;
+        }
+
+        tbody tr.js-dt-open td.js-dt-mobile-hide {
+            display: none !important;
+        }
+
+        tbody tr.js-dt-open td.js-dt-mobile-title::after {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+// Columns flagged js-dt-desktop-hide exist only to feed the mobile card layout
+// (e.g. a plain-text summary title). They are hidden on the desktop table.
+@media (min-width: 769px) {
+    .data-table__table .js-dt-desktop-hide {
+        display: none;
+    }
+}

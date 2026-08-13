@@ -1,0 +1,91 @@
+// DataTables custom "page length" dropdown control.
+.data-table-length {
+    &__toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .4rem .75rem;
+        border: 1px solid $st-border;
+        border-radius: .625rem;
+        background-color: $st-background;
+        color: $st-primary;
+        font-weight: 500;
+        box-shadow: 0 1px 2px rgba($st-ink, .08);
+        transition: background-color .15s ease-in-out, color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform .15s ease-in-out;
+
+        &:hover {
+            border-color: rgba($st-primary, .35);
+            background-color: rgba($st-primary, .06);
+            color: $st-primary;
+            box-shadow: 0 4px 8px rgba($st-ink, .1);
+            transform: translateY(-1px);
+        }
+
+        &:active,
+        &[aria-expanded="true"] {
+            border-color: transparent;
+            background-color: rgba($st-primary, .1);
+            color: $st-primary;
+            box-shadow: inset 0 2px 4px rgba($st-primary, .18);
+            transform: translateY(0);
+        }
+    }
+
+    &__control {
+        position: relative;
+        display: inline-flex;
+    }
+
+    &__caret {
+        font-size: .7rem;
+        line-height: 1;
+    }
+
+    &__menu {
+        z-index: 1050;
+        min-width: 5rem;
+        margin: 0;
+        padding: .35rem;
+        list-style: none;
+        border: 1px solid $st-border;
+        border-radius: .625rem;
+        background-color: $st-background;
+        box-shadow: 0 .5rem 1.5rem rgba($st-ink, .12);
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .15s ease-in-out;
+
+        &.is-open {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+
+    &__option {
+        display: block;
+        width: 100%;
+        padding: .4rem .75rem;
+        border: 0;
+        border-radius: .425rem;
+        background-color: transparent;
+        color: $st-ink;
+        font-weight: 500;
+        text-align: left;
+        cursor: pointer;
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: rgba($st-primary, .08);
+            color: $st-primary;
+        }
+
+        &.active {
+            background-color: rgba($st-primary, .12);
+            color: $st-primary;
+            font-weight: 600;
+        }
+    }
+}

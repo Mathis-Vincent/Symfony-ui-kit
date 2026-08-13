@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1 class="h3 mb-4">Playground du bundle</h1>
+    <p class="text-muted">
+        Chaque page ci-dessous étend un layout du bundle et n'écrit rien d'autre que sa
+        configuration. Les données viennent d'un tableau en mémoire — aucune base n'est requise.
+    </p>
+    <div class="row g-3 mt-2">
+        {% for demo in [
+            {route: 'demo_datatable', title: 'DataTable', text: 'Table server-side : tri, pagination, recherche, filtre, menu de longueur.'},
+            {route: 'demo_card_list', title: 'CardList', text: 'Grille de cartes : recherche, filtre offcanvas, « charger plus » / « tout charger ».'},
+            {route: 'demo_chart', title: 'Chart', text: 'Graphique Chart.js alimenté en inline par un ChartData.'}
+        ] %}
+            <div class="col-md-4">
+                <a class="card card-stretch text-decoration-none h-100" href="{{ path(demo.route) }}">
+                    <div class="card-body">
+                        <h2 class="h5">{{ demo.title }}</h2>
+                        <p class="text-muted mb-0">{{ demo.text }}</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

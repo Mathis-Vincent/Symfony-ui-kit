@@ -1,0 +1,54 @@
+{
+    "name": "mvincent/ui-kit-bundle",
+    "description": "Symfony UI kit bundle: declarative server-side DataTables, CardList and Chart modules (Twig layouts, Stimulus controllers, SCSS).",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "keywords": ["symfony", "bundle", "ui", "datatables", "stimulus", "chart.js", "twig"],
+    "authors": [
+        {
+            "name": "MVincent",
+            "email": "vmathis934@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "symfony/framework-bundle": "^6.4 || ^7.0",
+        "symfony/twig-bundle": "^6.4 || ^7.0",
+        "symfony/translation": "^6.4 || ^7.0",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/orm": "^2.17 || ^3.0",
+        "symfony/asset": "^6.4 || ^7.0",
+        "symfony/stimulus-bundle": "^2.13",
+        "symfony/web-profiler-bundle": "^6.4 || ^7.0",
+        "symfony/webpack-encore-bundle": "^2.1",
+        "symfony/yaml": "^6.4 || ^7.0"
+    },
+    "suggest": {
+        "doctrine/orm": "Required by DatatableRepository and CardListQueryTrait",
+        "symfony/stimulus-bundle": "Required by the Twig layouts (stimulus_controller / stimulus_target)",
+        "symfony/ux-translator": "To wire the front translator used by the Stimulus controllers"
+    },
+    "autoload": {
+        "psr-4": {
+            "MVincent\\UiKitBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MVincent\\UiKitBundle\\DevApp\\": "dev-app/src/"
+        }
+    },
+    "scripts": {
+        "playground": "php -S 127.0.0.1:8123 -t dev-app/public"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
