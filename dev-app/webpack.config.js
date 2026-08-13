@@ -21,4 +21,14 @@ Encore
     })
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+
+// The kit's sources live outside dev-app/, so Node's default resolution would look for
+// node_modules next to them (i.e. at the bundle root) and miss every peer dependency.
+// Pinning the lookup on dev-app/node_modules makes the aliased files resolve like local ones.
+config.resolve.modules = [
+    path.resolve(__dirname, 'node_modules'),
+    'node_modules',
+];
+
+module.exports = config;

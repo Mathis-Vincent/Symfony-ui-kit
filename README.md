@@ -114,6 +114,11 @@ Et dans le SCSS de l'application :
 Toutes les variables de la palette sont `!default` : les redéclarer avant l'import du
 partial `palette` suffit à restyler les trois modules.
 
+Si ton webpack aliase le kit depuis un chemin situé hors du projet (monorepo, dépôt `path`),
+ajoute `config.resolve.modules = [path.resolve(__dirname, 'node_modules'), 'node_modules']`
+pour que les imports du kit (`axios`, `chart.js`, …) se résolvent dans **tes** node_modules.
+Depuis `vendor/`, la résolution par défaut suffit.
+
 #### Dépendances front
 
 `@hotwired/stimulus`, `@floating-ui/dom`, `axios`, `bootstrap`, `chart.js`, `datatables.net-bs5`,

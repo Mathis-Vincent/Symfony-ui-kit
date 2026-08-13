@@ -1,6 +1,13 @@
 framework:
     secret: 'dev-app-only'
     test: false
+    default_locale: fr
+    # Registers `assets.packages`, required by the `asset()` calls of the kit layouts and
+    # by WebpackEncoreBundle's tag renderer.
+    assets: ~
+    # The kit ships its own domains (cardList, chart, dataTable); the playground adds none.
+    translator:
+        fallbacks: ['fr']
     session:
         storage_factory_id: session.storage.factory.mock_file
     profiler:
