@@ -9,8 +9,24 @@
 {% set cl_load_all = true %}
 {% set cl_active_filter = true %}
 
+{% block cl_card_media %}
+    <div class="card-list__card-media" data-media-field="image" data-alt-field="title"></div>
+{% endblock %}
+
 {% block cl_subtitle %}
     <span class="card-list__card-subtitle" data-field="category"></span>
+{% endblock %}
+
+{% block cl_card_badge %}
+    <span class="card-list__card-badge" data-badge-field="badge" data-badge-variant-field="badgeVariant"></span>
+{% endblock %}
+
+{% block cl_card_body %}
+    <p class="card-list__card-text" data-field="excerpt"></p>
+{% endblock %}
+
+{% block cl_card_tags %}
+    <div class="card-list__card-tags" data-tags-field="tags"></div>
 {% endblock %}
 
 {% block cl_rows %}

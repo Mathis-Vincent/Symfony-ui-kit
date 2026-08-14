@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a8a2e456-e932-45cb-b04e-d833f275b408" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../assets/controllers/generic/card_list_controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/controllers/generic/card_list_controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../assets/styles/modules/card-list/_card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/styles/modules/card-list/_card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dev-app/assets/styles/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../dev-app/assets/styles/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dev-app/src/Controller/DemoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../dev-app/src/Controller/DemoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dev-app/templates/demo/card_list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../dev-app/templates/demo/card_list.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/cardList.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/cardList.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../templates/cardList/layout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../templates/cardList/layout.html.twig" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Mathis-Vincent"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:Mathis-Vincent/Symfony-ui-kit.git",
+    "accountId": "427c56af-3ad5-43b7-b907-34ac08c22aec"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3HudeXzXRQVgEgFyoh4Y1PHhzFn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "//wsl.localhost/Ubuntu/usr/Developpment/MVincent-ui-kit/src",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PS-261.26222.71" />
+        <option value="bundled-php-predefined-a98d8de5180a-6bbb74dbab74-com.jetbrains.php.sharedIndexes-PS-261.26222.71" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a8a2e456-e932-45cb-b04e-d833f275b408" name="Changes" comment="" />
+      <created>1786721983266</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1786721983266</updated>
+      <workItem from="1786721984298" duration="3000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

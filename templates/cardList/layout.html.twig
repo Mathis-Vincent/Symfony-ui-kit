@@ -30,19 +30,23 @@
         })|raw }}
     >
         <template {{ stimulus_target(cl_controller_name, 'itemTemplate') }}>
+            {% block cl_card_media %}{% endblock %}
             <div class="card-list__card-header">
                 {% block cl_card_icon %}{% endblock %}
                 <div class="card-list__card-heading">
                     <h3 class="card-list__card-title"></h3>
                     {% block cl_subtitle %}{% endblock %}
                 </div>
+                {% block cl_card_badge %}{% endblock %}
                 {% if cl_card_clickable %}
                     <i class="bi bi-chevron-right card-list__card-chevron" aria-hidden="true"></i>
                 {% endif %}
             </div>
+            {% block cl_card_body %}{% endblock %}
             <ul class="card-list__card-stats">
                 {% block cl_rows %}{% endblock %}
             </ul>
+            {% block cl_card_tags %}{% endblock %}
         </template>
 
         {% if cl_active_search or cl_show_number or cl_active_filter %}

@@ -32,6 +32,11 @@ class DemoController extends AbstractController
 {
     private const array CATEGORIES = ['Symfony', 'Frontend', 'DevOps', 'Design'];
 
+    private const array TAGS = ['PHP', 'Symfony', 'Twig', 'Stimulus', 'SCSS'];
+
+    /** Published by `assets:install`, so the media zone points at a real file. */
+    private const string MEDIA_IMAGE = '/bundles/mvincentuikit/images/loading/cards-coming-soon.svg';
+
     #[Route('/', name: 'demo_home', methods: ['GET'])]
     public function home(): Response
     {
@@ -142,6 +147,11 @@ class DemoController extends AbstractController
             'category' => $row['category'],
             'views' => number_format($row['views'], 0, ',', ' '),
             'comments' => (string) $row['comments'],
+            'image' => $row['image'],
+            'excerpt' => $row['excerpt'],
+            'badge' => $row['category'],
+            'badgeVariant' => mb_strtolower($row['category']),
+            'tags' => $row['tags'],
             'url' => '#',
         ], $items);
 
@@ -179,19 +189,24 @@ class DemoController extends AbstractController
     /**
      * Deterministic dataset, big enough to exercise pagination and « load more ».
      *
-     * @return list<array{id: int, title: string, category: string, views: int, comments: int, published_at: string}>
+     * @return list<array{id: int, title: string, category: string, views: int, comments: int, published_at: string, image: string, excerpt: string, tags: list<string>}>
      */
     private function rows(): array
     {
         $rows = [];
         for ($i = 1; $i <= 47; ++$i) {
+            $category = self::CATEGORIES[$i % \count(self::CATEGORIES)];
+
             $rows[] = [
                 'id' => $i,
                 'title' => sprintf('Article de démonstration n°%02d', $i),
-                'category' => self::CATEGORIES[$i % \count(self::CATEGORIES)],
+                'category' => $category,
                 'views' => ($i * 137) % 9000 + 100,
                 'comments' => $i % 13,
                 'published_at' => sprintf('2026-%02d-%02d', ($i % 12) + 1, ($i % 28) + 1),
+                'image' => self::MEDIA_IMAGE,
+                'excerpt' => sprintf('Résumé de démonstration n°%02d, assez long pour occuper plusieurs lignes.', $i),
+                'tags' => \array_slice(self::TAGS, 0, ($i % 4) + 2),
             ];
         }
 

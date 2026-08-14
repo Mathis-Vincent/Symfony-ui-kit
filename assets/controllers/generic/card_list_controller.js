@@ -226,19 +226,38 @@ export default class extends BaseController {
             titleElement.textContent = this.#capitalize(this.#stringify(item[this.titleFieldValue]));
         }
 
+        const mediaElement = clone.querySelector('[data-media-field]');
+        if (mediaElement) {
+            this.#fillMedia(mediaElement, item);
+        }
+
         const iconElement = clone.querySelector('[data-icon-field]');
         if (iconElement) {
             this.#fillLeadingIcon(iconElement, item);
         }
 
+        const badgeElement = clone.querySelector('[data-badge-field]');
+        if (badgeElement) {
+            this.#fillBadge(badgeElement, item);
+        }
+
+        // Every `[data-field]` of the card is filled, wherever it sits: the subtitle
+        // is only a particular case, so a description or a footnote binds the same way.
+        this.#fillFields(clone, item);
+
         const subtitleElement = clone.querySelector('.card-list__card-subtitle');
         if (subtitleElement) {
-            this.#fillSubtitle(subtitleElement, item);
+            this.#revealSubtitle(subtitleElement);
         }
 
         const rows = clone.querySelectorAll('.card-list__card-stats [data-row-name]');
         for (let i = 0; i < rows.length; i++) {
             this.#fillStatRow(rows[i], item);
+        }
+
+        const tagsElement = clone.querySelector('[data-tags-field]');
+        if (tagsElement) {
+            this.#fillTags(tagsElement, item);
         }
 
         let card;
@@ -280,24 +299,111 @@ export default class extends BaseController {
         }
     }
 
-    #fillSubtitle(element, item) {
-        const fields = element.querySelectorAll('[data-field]');
-        if (0 === fields.length) {
+    // Fill an image from a source carried by the item: an URL as well as a `data:` URI,
+    // so a picture stored in database renders without an extra route. The element is
+    // dropped when the item has no source, leaving no empty frame behind.
+    #fillMedia(element, item) {
+        const source = this.#stringify(item[element.dataset.mediaField]);
+        if ('' === source) {
+            element.remove();
+
             return;
         }
 
-        let hasValue = false;
-        for (let i = 0; i < fields.length; i++) {
-            const value = this.#stringify(item[fields[i].dataset.field]);
-            fields[i].textContent = value;
-            if ('' !== value) {
-                hasValue = true;
-            }
+        const image = document.createElement('img');
+        image.className = 'card-list__card-media-image';
+        image.setAttribute('src', source);
+        image.setAttribute('loading', 'lazy');
+
+        const altField = element.dataset.altField || '';
+        image.setAttribute('alt', '' === altField ? '' : this.#stringify(item[altField]));
+
+        element.appendChild(image);
+    }
+
+    // Fill a status badge, optionally styled from a second field: the item carries the
+    // variant name and the badge gets the matching `--<variant>` BEM modifier.
+    #fillBadge(element, item) {
+        const label = this.#stringify(item[element.dataset.badgeField]);
+        if ('' === label) {
+            element.remove();
+
+            return;
         }
 
-        if (hasValue) {
-            element.classList.remove('d-none');
+        element.textContent = label;
+
+        const variantField = element.dataset.badgeVariantField || '';
+        if ('' === variantField) {
+            return;
         }
+
+        const variant = this.#modifier(this.#stringify(item[variantField]));
+        if ('' !== variant) {
+            element.classList.add('card-list__card-badge--' + variant);
+        }
+    }
+
+    // Fill a list of labels from an array field (tags, technologies, ...). Anything
+    // that is not a non-empty array leaves no container behind.
+    #fillTags(element, item) {
+        const values = item[element.dataset.tagsField];
+        if (!Array.isArray(values)) {
+            element.remove();
+
+            return;
+        }
+
+        let count = 0;
+        for (let i = 0; i < values.length; i++) {
+            const value = this.#stringify(values[i]);
+            if ('' === value) {
+                continue;
+            }
+
+            const tag = document.createElement('span');
+            tag.className = 'card-list__card-tag';
+            tag.textContent = value;
+            element.appendChild(tag);
+            count++;
+        }
+
+        if (0 === count) {
+            element.remove();
+        }
+    }
+
+    #fillFields(root, item) {
+        const fields = root.querySelectorAll('[data-field]');
+        for (let i = 0; i < fields.length; i++) {
+            fields[i].textContent = this.#stringify(item[fields[i].dataset.field]);
+        }
+    }
+
+    // The subtitle stays hidden until one of its fields carries a value, so a card
+    // without any of them keeps a clean heading instead of an empty line. The bound
+    // field may be the subtitle itself as well as any element it contains.
+    #revealSubtitle(element) {
+        if (element.dataset.field && '' !== element.textContent) {
+            element.classList.remove('d-none');
+
+            return;
+        }
+
+        const fields = element.querySelectorAll('[data-field]');
+        for (let i = 0; i < fields.length; i++) {
+            if ('' !== fields[i].textContent) {
+                element.classList.remove('d-none');
+
+                return;
+            }
+        }
+    }
+
+    // Keep only what is valid in a CSS class suffix: the variant comes from the
+    // server, and `classList.add()` throws on a value holding a space.
+    #modifier(value) {
+        return value.toLowerCase().replace(/[^a-z0-9-]/g, '');
     }
 
     #fillStatRow(row, item) {

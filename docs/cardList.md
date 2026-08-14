@@ -365,14 +365,27 @@ private const array CARD_LIST_SEARCH_FIELDS = ['s.name', "CONCAT(s.externalId, '
 ## 5. Structure d'une carte (le prototype `<template>`)
 
 Chaque carte est **clonée côté client** depuis le `<template>` du layout, puis remplie
-à partir de l'objet `item`. Quatre zones :
+à partir de l'objet `item`. Huit zones, toutes optionnelles sauf le titre :
 
 | Zone | Élément | Source |
 |---|---|---|
+| **Média** (optionnel) | bloc `cl_card_media` → élément `[data-media-field]` | `item[data-media-field]` porte la **source** de l'image (URL ou URI `data:`). Le contrôleur y insère un `<img loading="lazy">` et **retire l'élément** si la source est vide. Le `data-alt-field` optionnel désigne le champ servant de texte alternatif. |
 | **Icône de tête** (optionnel) | bloc `cl_card_icon` → élément `[data-icon-field]` | `item[data-icon-field]` donne le **nom** d'une icône Bootstrap (`bi-<nom>`) rendue en tête de carte. Si la valeur est vide, l'élément est retiré. Un `data-title-field` optionnel remplit l'attribut `title` depuis `item[...]`. |
 | **Titre** | `.card-list__card-title` | `item[cl_title_field]` (mis en majuscule initiale). |
 | **Sous-titre** (optionnel) | bloc `cl_subtitle` → `.card-list__card-subtitle` | chaque `<span data-field="key">` du bloc reçoit `item[key]`. Le sous-titre est masqué (`d-none`) tant qu'aucun champ n'a de valeur. |
+| **Badge** (optionnel) | bloc `cl_card_badge` → élément `[data-badge-field]` | `item[data-badge-field]` donne le **libellé**. Le `data-badge-variant-field` optionnel désigne un second champ dont la valeur devient le modifieur `card-list__card-badge--<variante>`. Élément retiré si le libellé est vide. |
+| **Corps libre** (optionnel) | bloc `cl_card_body` | zone libre entre l'en-tête et les stats, typiquement un `.card-list__card-text` contenant un `data-field` (description multi-lignes). |
 | **Lignes de stats** | `<li data-row-name="…">` du bloc `cl_rows` | `item[data-row-name]`, précédé d'une icône et suivi du libellé (texte du `<li>`). |
+| **Tags** (optionnel) | bloc `cl_card_tags` → élément `[data-tags-field]` | `item[data-tags-field]` est un **tableau** de chaînes ; le contrôleur ajoute un `<span class="card-list__card-tag">` par entrée. Élément retiré si la valeur n'est pas un tableau ou ne produit aucun tag. |
+
+> **Où se remplissent les `data-field`** — tout élément portant un `data-field`, **où qu'il
+> soit dans la carte**, reçoit `item[<clé>]` en texte. Le sous-titre n'en est qu'un cas
+> particulier : son bloc pilote en plus le retrait du `d-none`.
+
+> ⚠️ **Le kit ne peint rien.** Ces zones ne portent que la structure (placement, flux,
+> recadrage de l'image). Couleurs, typographie, rayons et **variantes de badge** se
+> déclarent dans la feuille de style du projet hôte, sur les classes `card-list__card-*`.
+> Voir `dev-app/assets/styles/app.scss` pour un exemple complet.
 
 ### Définition de l'icône de tête (bloc `cl_card_icon`)
 
@@ -406,6 +419,50 @@ composer un sous-titre riche (plusieurs champs, icônes, séparateurs). Dès qu'
     </p>
 {% endblock cl_subtitle %}
 ```
+
+### Définition du média, du badge et des tags
+
+Ces trois zones suivent la même règle que les précédentes : le template déclare *où* la
+donnée se place et *quel champ* la porte, le back décide de la valeur.
+
+```twig
+{% block cl_card_media %}
+    <div class="card-list__card-media" data-media-field="image" data-alt-field="title"></div>
+{% endblock cl_card_media %}
+
+{% block cl_card_badge %}
+    <span class="card-list__card-badge" data-badge-field="status" data-badge-variant-field="statusVariant"></span>
+{% endblock cl_card_badge %}
+
+{% block cl_card_body %}
+    <p class="card-list__card-text" data-field="description"></p>
+{% endblock cl_card_body %}
+
+{% block cl_card_tags %}
+    <div class="card-list__card-tags" data-tags-field="tags"></div>
+{% endblock cl_card_tags %}
+```
+
+L'`item` correspondant :
+
+```json
+{
+  "title": "Portfolio",
+  "image": "data:image/png;base64,iVBORw0KGgo…",
+  "description": "Site vitrine animé en Canvas et Web Audio.",
+  "status": "Publié",
+  "statusVariant": "published",
+  "tags": ["HTML", "CSS", "JavaScript"]
+}
+```
+
+- **`image`** accepte une URL comme une URI `data:`, ce qui permet de servir une image
+  stockée en base sans route dédiée.
+- **`statusVariant`** produit la classe `card-list__card-badge--published`, que le projet
+  hôte style à sa guise. La valeur est nettoyée côté contrôleur (minuscules, `[a-z0-9-]`)
+  pour rester un suffixe de classe valide.
+- **`tags`** doit être un **tableau** : c'est le seul champ dont le contrôleur n'attend pas
+  un scalaire.
 
 ### Définition des lignes de stats (`<li>` dans `cl_rows`)
 
@@ -462,9 +519,13 @@ sur le conteneur `.card-list` (valeurs du contrôleur Stimulus).
 
 | Bloc | Rôle |
 |---|---|
+| `cl_card_media` | **Image** en tête de carte (un `[data-media-field]`, cf. §5). |
 | `cl_card_icon` | **Icône de tête** du prototype de carte (un `[data-icon-field]`, cf. §5). |
 | `cl_rows` | **Lignes de stats** du prototype de carte (les `<li data-row-name>`). |
 | `cl_subtitle` | **Sous-titre** du prototype de carte (un `.card-list__card-subtitle d-none` avec des `<span data-field>`). |
+| `cl_card_badge` | **Badge** de l'en-tête (un `[data-badge-field]`, cf. §5). |
+| `cl_card_body` | **Corps libre** entre l'en-tête et les stats (description, encart…). |
+| `cl_card_tags` | **Tags** en pied de carte (un `[data-tags-field]` alimenté par un tableau). |
 | `cl_filters` | Contenu du panneau de filtres (offcanvas). Nécessite `cl_active_filter = true`. |
 | `cl_toolbar_actions` | Actions libres ajoutées à droite de la toolbar (ex. « Créer »). |
 | `cl_grid_class` | Classes CSS additionnelles sur la grille `.card-list__grid`. |
