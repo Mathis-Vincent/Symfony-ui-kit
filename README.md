@@ -108,16 +108,53 @@ registerUiKitControllers(application); // même préfixe que `stimulus_prefix`
 
 Sans `setTranslator()`, le kit affiche les clés de traduction brutes — rien ne casse.
 
-Et dans le SCSS de l'application :
+Et dans le SCSS de l'application. Le kit est écrit avec le **système de modules Sass**
+(`@use` / `@forward`) : il n'émet plus aucun `@import` et donc aucun avertissement de
+dépréciation Dart Sass.
+
+`app.scss` :
 
 ```scss
-@import "~@mvincent/ui-kit/styles/variables/palette"; // avant Bootstrap
-@import "~bootstrap/scss/bootstrap";
-@import "~@mvincent/ui-kit/styles/ui-kit";
+@use "~@mvincent/ui-kit/styles/variables/palette" as *; // la palette d'abord
+@use "bootstrap-theme";                                 // puis Bootstrap (voir ci-dessous)
+@use "~@mvincent/ui-kit/styles/ui-kit";                 // puis les modules du kit
 ```
 
-Toutes les variables de la palette sont `!default` : les redéclarer avant l'import du
-partial `palette` suffit à restyler les trois modules.
+`_bootstrap-theme.scss` :
+
+```scss
+@use "~@mvincent/ui-kit/styles/variables/bootstrap" as *; // mappe la palette sur Bootstrap
+
+@import "~bootstrap/scss/bootstrap";
+```
+
+Bootstrap 5 est encore écrit en `@import` : il ne peut pas être configuré par
+`@use ... with (...)`, ses variables doivent être visibles dans la portée qui l'importe.
+Isoler cet `@import` (le seul restant, et il disparaîtra quand Bootstrap sera un module
+Sass) dans son propre fichier permet à `app.scss` de tout charger en `@use` — l'ordre du
+CSS émis suit alors l'ordre des `@use`.
+
+#### Restyler le kit
+
+Toutes les variables `$st-*` de la palette sont `!default` : configure-les sur le **premier**
+chargement du module, c'est-à-dire la première ligne d'`app.scss`.
+
+```scss
+@use "~@mvincent/ui-kit/styles/variables/palette" as * with (
+    $st-primary: #123456,
+    $st-accent: #0F9D58,
+);
+```
+
+`ui-kit` et `variables/bootstrap` réutilisent ensuite le module déjà configuré. La palette
+est aussi exposée en custom properties (`--st-primary`, `--st-accent`, …) pour les styles
+BEM écrits à la main.
+
+> **Migration depuis la v1** — le partial `variables/palette` ne déclare plus les variables
+> Bootstrap (`$primary`, `$danger`, …) : elles vivent dans `variables/bootstrap`, à charger
+> avant Bootstrap. Le `$danger` du kit vient désormais de `$st-danger` (les modules Sass
+> étant isolés, il n'hérite plus de celui de Bootstrap) : aligne-le si tu personnalises
+> Bootstrap.
 
 Si ton webpack aliase le kit depuis un chemin situé hors du projet (monorepo, dépôt `path`),
 ajoute `config.resolve.modules = [path.resolve(__dirname, 'node_modules'), 'node_modules']`

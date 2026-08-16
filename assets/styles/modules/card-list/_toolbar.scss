@@ -1,4 +1,7 @@
 // Card list toolbar: search field, filter slot and result count.
+
+@use "../../variables/palette" as *;
+
 .card-list {
     &__toolbar {
         display: flex;

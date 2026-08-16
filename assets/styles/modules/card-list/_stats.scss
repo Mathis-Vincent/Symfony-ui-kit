@@ -1,4 +1,8 @@
 // Card list stats: the stat list inside a card with its icons, values and labels.
+
+@use "sass:color";
+@use "../../variables/palette" as *;
+
 .card-list {
     &__card-stats {
         display: flex;
@@ -49,17 +53,17 @@
 
         &--warning {
             background-color: rgba($st-gold, .18);
-            color: darken($st-gold, 20%);
+            color: color.adjust($st-gold, $lightness: -20%);
         }
 
         &--danger {
-            background-color: rgba($danger, .15);
-            color: $danger;
+            background-color: rgba($st-danger, .15);
+            color: $st-danger;
         }
 
         &--success {
             background-color: rgba($st-accent, .15);
-            color: darken($st-accent, 8%);
+            color: color.adjust($st-accent, $lightness: -8%);
         }
     }
 

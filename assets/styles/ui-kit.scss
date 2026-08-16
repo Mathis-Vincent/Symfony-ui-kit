@@ -1,13 +1,18 @@
 // Single entrypoint of the UI kit styles.
 //
-// Import it from the host application AFTER Bootstrap (the modules restyle Bootstrap
-// components) and, if you want to restyle the kit, declare your own `$st-*` values
-// BEFORE importing "variables/palette" — every variable there is `!default`.
+// Load it from the host application AFTER Bootstrap (the modules restyle Bootstrap
+// components). To restyle the kit, configure the palette on its own `@use` — every
+// variable there is `!default`:
+//
+//     @use "@mvincent/ui-kit/styles/variables/palette" with ($st-primary: #123456);
+//
+// That `@use` must be the first load of the palette in the build; `ui-kit` then reuses
+// the already-configured module.
 
-@import "variables/palette";
+@forward "variables/palette";
 
-@import "modules/datatable/datatable";
-@import "modules/datatable-loader";
-@import "modules/card-list/card-list";
-@import "modules/charts/charts";
-@import "modules/chart-loader";
+@use "modules/datatable/datatable";
+@use "modules/datatable-loader";
+@use "modules/card-list/card-list";
+@use "modules/charts/charts";
+@use "modules/chart-loader";

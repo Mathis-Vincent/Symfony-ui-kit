@@ -1,4 +1,7 @@
 // Card list layout: outer container, responsive grid, empty state and footer.
+
+@use "../../variables/palette" as *;
+
 .card-list {
     display: flex;
     flex-direction: column;

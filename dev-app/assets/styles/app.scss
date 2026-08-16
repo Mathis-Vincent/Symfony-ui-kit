@@ -1,8 +1,10 @@
-// Import order matters: the palette first (it overrides Bootstrap variables),
-// then Bootstrap, then the kit modules — exactly what a host project does.
-@import "~@mvincent/ui-kit/styles/variables/palette";
-@import "~bootstrap/scss/bootstrap";
-@import "~@mvincent/ui-kit/styles/ui-kit";
+// Load order matters: the palette first (it feeds the Bootstrap variables), then
+// Bootstrap, then the kit modules — exactly what a host project does. `@use` emits the
+// CSS of each module in the order the rules appear here.
+@use "sass:color";
+@use "~@mvincent/ui-kit/styles/variables/palette" as *;
+@use "bootstrap-theme";
+@use "~@mvincent/ui-kit/styles/ui-kit";
 
 body {
     background-color: $st-surface;
@@ -36,7 +38,7 @@ body {
 
         &--frontend {
             background-color: rgba($st-accent, .15);
-            color: darken($st-accent, 8%);
+            color: color.adjust($st-accent, $lightness: -8%);
         }
 
         &--devops {
@@ -46,7 +48,7 @@ body {
 
         &--design {
             background-color: rgba($st-gold, .18);
-            color: darken($st-gold, 20%);
+            color: color.adjust($st-gold, $lightness: -20%);
         }
     }
 

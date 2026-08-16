@@ -1,4 +1,7 @@
 // Card list item: the clickable card shell, its header, titles and chevron.
+
+@use "../../variables/palette" as *;
+
 .card-list {
     &__card {
         display: flex;

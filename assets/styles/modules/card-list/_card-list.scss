@@ -1,5 +1,5 @@
-// Generic card list module. Split into focused partials imported below.
-@import "layout";
-@import "toolbar";
-@import "card";
-@import "stats";
+// Generic card list module. Split into focused partials forwarded below.
+@forward "layout";
+@forward "toolbar";
+@forward "card";
+@forward "stats";

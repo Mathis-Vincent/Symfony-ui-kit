@@ -1,0 +1,28 @@
+// Bootstrap theme overrides derived from the kit palette.
+//
+// Bootstrap 5 is still written with `@import`, so it cannot be configured with
+// `@use ... with (...)`: its variables have to be visible in the scope that imports it.
+// Load this file with `as *` in the file that imports Bootstrap, so its values supersede
+// the `!default`s across the whole component library:
+//
+//     // _bootstrap-theme.scss
+//     @use "@mvincent/ui-kit/styles/variables/bootstrap" as *;
+//
+//     @import "bootstrap/scss/bootstrap";
+//
+// This file only maps the palette onto Bootstrap; configure the palette itself on its own
+// `@use ... with (...)`, on the first load of the module in the build.
+
+@use "palette" as *;
+
+$primary: $st-primary !default;
+$success: $st-accent !default;
+$danger: $st-danger !default;
+$body-color: $st-ink !default;
+$body-bg: $st-background !default;
+$body-secondary-bg: $st-surface !default;
+$body-tertiary-bg: $st-surface !default;
+$border-color: $st-border !default;
+$card-bg: $st-background !default;
+$card-border-color: $st-border !default;
+$card-cap-bg: transparent !default;

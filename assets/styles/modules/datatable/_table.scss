@@ -1,4 +1,7 @@
 // DataTables table body: head/rows styling, row actions, paging and processing.
+
+@use "../../variables/palette" as *;
+
 .data-table {
     &__table {
         width: 100%;

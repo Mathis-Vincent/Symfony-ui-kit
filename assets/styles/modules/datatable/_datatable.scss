@@ -1,6 +1,6 @@
-// Generic DataTables module. Split into focused partials imported below.
-@import "controls";
-@import "table";
-@import "filter";
-@import "length";
-@import "responsive";
+// Generic DataTables module. Split into focused partials forwarded below.
+@forward "controls";
+@forward "table";
+@forward "filter";
+@forward "length";
+@forward "responsive";

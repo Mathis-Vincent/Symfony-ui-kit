@@ -1,3 +1,5 @@
+@use "../variables/palette" as *;
+
 .data-table-frame {
     position: relative;
 
@@ -31,7 +33,7 @@
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background-color: $card-bg;
+    background-color: $st-background;
     transition: opacity .4s ease;
 
     &__illustration {

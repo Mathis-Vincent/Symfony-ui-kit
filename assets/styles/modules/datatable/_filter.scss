@@ -1,4 +1,7 @@
 // DataTables action buttons and the filter dropdown panel.
+
+@use "../../variables/palette" as *;
+
 .card-actions {
     display: inline-flex;
     align-items: center;

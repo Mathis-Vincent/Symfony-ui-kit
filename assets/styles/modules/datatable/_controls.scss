@@ -1,4 +1,7 @@
 // DataTables top controls: layout rows, length/search inputs, info and filters.
+
+@use "../../variables/palette" as *;
+
 .data-table {
     margin-top: -1.5rem;
 

@@ -1,4 +1,7 @@
 // DataTables custom "page length" dropdown control.
+
+@use "../../variables/palette" as *;
+
 .data-table-length {
     &__toggle {
         display: inline-flex;

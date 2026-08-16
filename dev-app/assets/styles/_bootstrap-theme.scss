@@ -1,0 +1,11 @@
+// Bootstrap 5 is still written with `@import`, so it cannot be configured through
+// `@use ... with (...)`: its variables have to be visible in the scope that imports it.
+// Isolating that in its own file lets `app.scss` load everything with `@use` and keeps
+// the CSS order intact (palette → Bootstrap → kit).
+//
+// The `@import` below is the only one left in the chain; it disappears when Bootstrap
+// ships as a Sass module.
+
+@use "~@mvincent/ui-kit/styles/variables/bootstrap" as *;
+
+@import "~bootstrap/scss/bootstrap";

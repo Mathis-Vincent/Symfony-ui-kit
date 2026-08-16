@@ -1,5 +1,10 @@
 // Project color palette — the single file to edit to restyle the three modules
 // Single source of truth for the application's brand colors.
+//
+// Loaded as a Sass module: configure it from the host application with
+// `@use "@mvincent/ui-kit/styles/variables/palette" with ($st-primary: #123456);`
+// The `with` clause must appear on the FIRST load of this module in the build,
+// so put it above the `@use` of "ui-kit" in the application stylesheet.
 
 // Primaire
 $st-primary: #1E3A8A !default;
@@ -15,35 +20,21 @@ $st-background: #FAF8F2 !default;
 $st-surface: #F4F1E9 !default;
 // Bordures & Rails
 $st-border: #E2E8F0 !default;
-
-// Bootstrap theme overrides (must be declared before importing Bootstrap so the
-// `!default` values are superseded across the whole component library).
-$primary: $st-primary !default;
-$success: $st-accent !default;
-$body-color: $st-ink !default;
-$body-bg: $st-background !default;
-$body-secondary-bg: $st-surface !default;
-$body-tertiary-bg: $st-surface !default;
-$border-color: $st-border !default;
-$card-bg: $st-background !default;
-$card-border-color: $st-border !default;
-$card-cap-bg: transparent !default;
+// État d'erreur — sous `@import` le kit héritait du `$danger` de Bootstrap ; les modules
+// Sass étant isolés, la valeur vit désormais ici (aligne-la sur ton Bootstrap si tu le
+// personnalises).
+$st-danger: #DC3545 !default;
 
 // Expose the palette as custom properties for use in handwritten BEM styles.
-// Guarded so the block is emitted once even when this partial is imported twice
-// (once by the host before Bootstrap, once by `ui-kit.scss`).
-$st-palette-emitted: false !default;
-
-@if not $st-palette-emitted {
-    :root {
-        --st-primary: #{$st-primary};
-        --st-accent: #{$st-accent};
-        --st-gold: #{$st-gold};
-        --st-ink: #{$st-ink};
-        --st-background: #{$st-background};
-        --st-surface: #{$st-surface};
-        --st-border: #{$st-border};
-    }
-
-    $st-palette-emitted: true;
+// A module is evaluated once per build, so this block is emitted once whatever the
+// number of `@use` rules pointing at it.
+:root {
+    --st-primary: #{$st-primary};
+    --st-accent: #{$st-accent};
+    --st-gold: #{$st-gold};
+    --st-ink: #{$st-ink};
+    --st-background: #{$st-background};
+    --st-surface: #{$st-surface};
+    --st-border: #{$st-border};
+    --st-danger: #{$st-danger};
 }

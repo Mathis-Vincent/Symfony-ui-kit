@@ -3,6 +3,9 @@
 // horizontal scroll container ("overflow-x: auto") would capture the sticky
 // <th>, pinning it to that box instead of the viewport, and "position: static"
 // would disable the pinning altogether.
+
+@use "../../variables/palette" as *;
+
 @media (min-width: 771px) {
     .data-table:not(.data-table--sticky-header) .dt-layout-table {
         overflow-x: auto;
