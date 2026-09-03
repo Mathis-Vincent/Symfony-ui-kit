@@ -32,7 +32,9 @@ abstract class DatatableRepository extends ServiceEntityRepository
             $qb->addOrderBy($order['column'], $order['order']);
         }
 
-        $paginator = new Paginator($qb);
+        $paginator = new Paginator($qb, false);
+        $paginator->setUseOutputWalkers(false);
+
         $data = $paginator->getQuery()->getResult();
 
         $orderedData = [];
