@@ -1,5 +1,5 @@
 {
-    "name": "mvincent/ui-kit-bundle",
+    "name": "mathis-vincent/symfony-ui-kit",
     "description": "Symfony UI kit bundle: declarative server-side DataTables, CardList and Chart modules (Twig layouts, Stimulus controllers, SCSS).",
     "type": "symfony-bundle",
     "license": "MIT",

@@ -34,7 +34,7 @@ le contrôleur JS **clone** le prototype `<template>` pour chaque item et rempli
 
 ### Socle réutilisable (fourni par le bundle, rien à copier)
 
-Ces fichiers sont **génériques** : ils vivent dans le bundle `mvincent/ui-kit-bundle`,
+Ces fichiers sont **génériques** : ils vivent dans le bundle `mathis-vincent/symfony-ui-kit`,
 ne connaissent aucune entité et se partagent
 d'un projet à l'autre sans modification.
 

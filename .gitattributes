@@ -5,7 +5,7 @@
 
 # Never shipped to a project that installs the bundle. `composer require` downloads the
 # dist archive, built by `git archive` from this list, so everything below is simply
-# absent from vendor/mvincent/ui-kit-bundle.
+# absent from vendor/mathis-vincent/symfony-ui-kit.
 #
 # The CI job `dist` asserts that this stays true.
 

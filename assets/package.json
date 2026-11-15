@@ -1,7 +1,7 @@
 {
     "name": "@mvincent/ui-kit",
     "version": "1.0.0",
-    "description": "Front assets (Stimulus controllers + SCSS) of mvincent/ui-kit-bundle.",
+    "description": "Front assets (Stimulus controllers + SCSS) of mathis-vincent/symfony-ui-kit.",
     "license": "MIT",
     "main": "index.js",
     "exports": {

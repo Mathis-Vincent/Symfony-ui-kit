@@ -1,7 +1,7 @@
 {
     "name": "mvincent-ui-kit-dev-app",
     "private": true,
-    "description": "Development playground of mvincent/ui-kit-bundle. Never distributed.",
+    "description": "Development playground of mathis-vincent/symfony-ui-kit. Never distributed.",
     "scripts": {
         "dev": "encore dev",
         "watch": "encore dev --watch",

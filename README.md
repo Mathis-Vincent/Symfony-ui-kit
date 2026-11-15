@@ -29,19 +29,8 @@ examples/           application de démonstration (hors autoload, ne sert que de
 
 ### 1. Le paquet
 
-Le bundle n'est pas publié sur Packagist : déclarer un dépôt `path` (ou `vcs`) dans le
-`composer.json` du projet hôte.
-
-```json
-{
-    "repositories": [
-        { "type": "path", "url": "../MVincent-ui-kit" }
-    ]
-}
-```
-
 ```bash
-composer require mvincent/ui-kit-bundle:@dev
+composer require mathis-vincent/symfony-ui-kit
 ```
 
 Prérequis PHP 8.3, 8.4 ou 8.5, avec Symfony 6.4, 7.x ou 8.x (Symfony 8 exige PHP 8.4+).
@@ -86,7 +75,7 @@ Le `package.json` du projet hôte référence les assets du bundle :
 ```json
 {
     "dependencies": {
-        "@mvincent/ui-kit": "file:vendor/mvincent/ui-kit-bundle/assets"
+        "@mvincent/ui-kit": "file:vendor/mathis-vincent/symfony-ui-kit/assets"
     }
 }
 ```
