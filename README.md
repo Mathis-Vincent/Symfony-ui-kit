@@ -1,5 +1,11 @@
 # MVincent UI Kit Bundle
 
+[![CI](https://github.com/Mathis-Vincent/Symfony-ui-kit/actions/workflows/ci.yaml/badge.svg)](https://github.com/Mathis-Vincent/Symfony-ui-kit/actions/workflows/ci.yaml)
+[![Latest Version](https://img.shields.io/packagist/v/mathis-vincent/symfony-ui-kit.svg)](https://packagist.org/packages/mathis-vincent/symfony-ui-kit)
+[![Downloads](https://img.shields.io/packagist/dt/mathis-vincent/symfony-ui-kit.svg)](https://packagist.org/packages/mathis-vincent/symfony-ui-kit)
+[![PHP Version](https://img.shields.io/packagist/dependency-v/mathis-vincent/symfony-ui-kit/php.svg)](https://packagist.org/packages/mathis-vincent/symfony-ui-kit)
+[![License](https://img.shields.io/github/license/Mathis-Vincent/Symfony-ui-kit.svg)](LICENSE)
+
 Bundle Symfony réutilisable regroupant trois modules d'affichage **déclaratifs**, pensés pour
 écrire le minimum de code par page :
 
