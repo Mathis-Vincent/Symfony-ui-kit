@@ -86,13 +86,40 @@ export default class extends BaseController {
         for (let i = 0; i < this.filterFieldTargets.length; i++) {
             const field = this.filterFieldTargets[i];
             const param = field.dataset.filterParam;
+            if (!param) {
+                continue;
+            }
+
+            if (field.multiple) {
+                const values = this.#selectedValues(field);
+                if (values.length > 0) {
+                    filters[param] = values;
+                }
+
+                continue;
+            }
+
             const value = field.value.trim();
-            if (param && '' !== value) {
+            if ('' !== value) {
                 filters[param] = value;
             }
         }
 
         return filters;
+    }
+
+    // `field.value` only holds the first selected option of a `<select multiple>`;
+    // Tom Select (ux-autocomplete) keeps `selectedOptions` of the original select in sync.
+    #selectedValues(field) {
+        const values = [];
+        for (let i = 0; i < field.selectedOptions.length; i++) {
+            const value = field.selectedOptions[i].value.trim();
+            if ('' !== value) {
+                values.push(value);
+            }
+        }
+
+        return values;
     }
 
     loadMore() {
@@ -158,7 +185,19 @@ export default class extends BaseController {
 
         const filterKeys = Object.keys(this.#currentFilters);
         for (let i = 0; i < filterKeys.length; i++) {
-            params.set(filterKeys[i], this.#currentFilters[filterKeys[i]]);
+            const key = filterKeys[i];
+            const value = this.#currentFilters[key];
+            if (!Array.isArray(value)) {
+                params.set(key, value);
+
+                continue;
+            }
+
+            // PHP `param[]` notation, so the value reaches Symfony as an array; no comma join
+            // since a value may contain one.
+            for (let j = 0; j < value.length; j++) {
+                params.append(key + '[]', value[j]);
+            }
         }
 
         fetch(this.urlValue + '?' + params.toString(), {

@@ -102,7 +102,7 @@ class ArticleRepository extends DatatableRepository
             ->addSelect('c.name AS categoryName')
             ->orderBy('a.publishedAt', 'DESC');
 
-        $this->applyCategoryFilter($qb, $query->categoryId);
+        $this->applyCategoryFilter($qb, $query->categoryIds);
         $this->applyCardListSearch($qb, $query->search, self::CARD_LIST_SEARCH_FIELDS);
         if (!$query->loadAll) {
             $this->applyCardListPagination($qb, $query->page, $query->perPage);
@@ -142,20 +142,23 @@ class ArticleRepository extends DatatableRepository
             ->innerJoin('a.category', 'c')
             ->select('count(a.id)');
 
-        $this->applyCategoryFilter($qb, $query->categoryId);
+        $this->applyCategoryFilter($qb, $query->categoryIds);
         $this->applyCardListSearch($qb, $search, self::CARD_LIST_SEARCH_FIELDS);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    private function applyCategoryFilter(QueryBuilder $qb, ?int $categoryId): void
+    /**
+     * @param list<int> $categoryIds
+     */
+    private function applyCategoryFilter(QueryBuilder $qb, array $categoryIds): void
     {
-        if (null === $categoryId) {
+        if ([] === $categoryIds) {
             return;
         }
 
         $qb
-            ->andWhere('c.id = :categoryId')
-            ->setParameter('categoryId', $categoryId);
+            ->andWhere('c.id IN (:categoryIds)')
+            ->setParameter('categoryIds', $categoryIds);
     }
 }

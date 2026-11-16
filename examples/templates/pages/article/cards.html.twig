@@ -30,7 +30,9 @@
         <select
             id="cl-filter-category"
             class="form-select"
+            multiple
             data-filter-param="category"
+            {{ stimulus_controller('symfony/ux-autocomplete/autocomplete') }}
             {{ stimulus_target(cl_controller_name, 'filterField') }}
         >
             <option value="">{{ 'article.filter.category_all'|trans }}</option>

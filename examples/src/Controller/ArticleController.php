@@ -61,7 +61,7 @@ class ArticleController extends AbstractController
         #[MapQueryParameter] int $page = 1,
         #[MapQueryParameter] int $perPage = CardListQuery::DEFAULT_PER_PAGE,
         #[MapQueryParameter] bool $loadAll = false,
-        #[MapQueryParameter] ?int $category = null,
+        #[MapQueryParameter] array $category = [],
     ): JsonResponse {
         $query = new ArticleCardListQuery($search, $page, $perPage, $loadAll, $category);
         $result = $articleManager->getArticlesCardPage($query);

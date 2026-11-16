@@ -90,7 +90,7 @@ C'est le cœur du module : front et back se parlent avec les **noms de champs**
 | `page` | int | Page courante, 1-based. |
 | `perPage` | int | Nombre de cartes par page. |
 | `loadAll` | `'1'`? | Présent uniquement quand « tout charger » est cliqué : la pagination est abandonnée. |
-| *(un par filtre)* | string | Une clé par `data-filter-param` déclaré (ex. `customer`) ; les valeurs vides sont omises. |
+| *(un par filtre)* | string \| string[] | Une clé par `data-filter-param` déclaré (ex. `customer`) ; les valeurs vides sont omises. Un filtre multiple (`<select multiple>`) part en paramètres répétés `param[]` (ex. `tag[]=a&tag[]=b`), reçus en `array` côté Symfony. |
 
 **Réponse** (JSON) :
 
@@ -577,6 +577,77 @@ Côté back, ces paramètres arrivent en query string ; on les mappe sur des pro
 Un `<select>` de filtre peut être enrichi (recherche interne) en lui ajoutant
 `{{ stimulus_controller('symfony/ux-autocomplete/autocomplete') }}` en plus de la cible
 `filterField`, comme le filtre client de la liste des sites.
+
+### Filtre à choix multiple
+
+Ajouter `multiple` au `<select>` : le contrôleur lit alors **toutes** les options
+sélectionnées (`selectedOptions`), ignore les valeurs vides et omet le filtre si aucune ne
+reste. Les valeurs partent en paramètres répétés avec la notation PHP `param[]`
+(`tag[]=a&tag[]=b`), jamais jointes par des virgules (une valeur peut en contenir une).
+Compatible avec `ux-autocomplete` : Tom Select tient à jour les options sélectionnées du
+`<select>` d'origine.
+
+```twig
+<div class="data-table-filter__field">
+    <label class="data-table-filter__label" for="cl-filter-tag">
+        {{ 'filter.tag'|trans({}, 'cardList') }}
+    </label>
+    <select
+        id="cl-filter-tag"
+        class="form-select"
+        multiple
+        data-filter-param="tag"
+        {{ stimulus_controller('symfony/ux-autocomplete/autocomplete') }}
+        {{ stimulus_target('generic--card-list', 'filterField') }}
+    >
+        {% for tag in tags %}
+            <option value="{{ tag.slug }}">{{ tag.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+```
+
+Côté contrôleur PHP, le paramètre se mappe en `array` (absent = tableau vide) :
+
+```php
+#[MapQueryParameter] array $tag = [],
+// ...
+$query = new SiteCardListQuery($search, $page, $perPage, $loadAll, $tag);
+```
+
+et se normalise dans le constructeur du `CardListQuery` étendu (liste de chaînes non
+vides, dédoublonnées), pour que le repository n'ait qu'un `IN (:tags)` à appliquer :
+
+```php
+readonly class SiteCardListQuery extends CardListQuery
+{
+    /** @var list<string> */
+    public array $tags;
+
+    public function __construct(
+        string $search = '',
+        int $page = 1,
+        int $perPage = self::DEFAULT_PER_PAGE,
+        bool $loadAll = false,
+        array $tags = [],
+    ) {
+        parent::__construct($search, $page, $perPage, $loadAll);
+
+        $normalized = [];
+        foreach ($tags as $tag) {
+            // A nested array (`tag[0][]=x`) is not a string: drop it.
+            if (\is_string($tag) && '' !== trim($tag)) {
+                $normalized[trim($tag)] = true;
+            }
+        }
+        // array_keys() turns numeric-string keys back into ints.
+        $this->tags = array_map('strval', array_keys($normalized));
+    }
+}
+```
+
+L'exemple `examples/` (filtre catégorie de `cards.html.twig`, `ArticleCardListQuery`) suit ce
+schéma avec des identifiants entiers.
 
 N'afficher le filtre que quand il a du sens, par ex. `{% set cl_active_filter = customers|length > 1 %}`.
 

@@ -22,17 +22,27 @@ use MVincent\UiKitBundle\DTO\CardList\CardListQuery;
  */
 readonly class ArticleCardListQuery extends CardListQuery
 {
-    public ?int $categoryId;
+    /** @var list<int> */
+    public array $categoryIds;
 
     public function __construct(
         string $search = '',
         int $page = 1,
         int $perPage = self::DEFAULT_PER_PAGE,
         bool $loadAll = false,
-        ?int $categoryId = null,
+        array $categoryIds = [],
     ) {
         parent::__construct($search, $page, $perPage, $loadAll);
 
-        $this->categoryId = (null !== $categoryId && $categoryId > 0) ? $categoryId : null;
+        // Multiple filter (`category[]`): keep positive ids only, without duplicates. `filter_var`
+        // rejects a nested array (`category[0][]=5`) that a cast would turn into 1.
+        $ids = [];
+        foreach ($categoryIds as $categoryId) {
+            $id = filter_var($categoryId, \FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+            if (false !== $id) {
+                $ids[$id] = $id;
+            }
+        }
+        $this->categoryIds = array_values($ids);
     }
 }
